@@ -1,4 +1,3 @@
-// components/CrashMap.tsx
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -16,7 +15,6 @@ interface CrashRow {
   year: number;
 }
 
-// Title-case helper
 function toTitleCase(str: string): string {
   return str
     .toLowerCase()
@@ -39,7 +37,6 @@ export default function CrashMap() {
 
   const [cityNames, setCityNames] = useState<Record<string, string>>({});
   const [countyNames, setCountyNames] = useState<Record<string, string>>({});
-
   const [cityOptions, setCityOptions] = useState<Option[]>([]);
   const [countyOptions, setCountyOptions] = useState<Option[]>([]);
   const [yearOptions, setYearOptions] = useState<Option[]>([]);
@@ -51,11 +48,14 @@ export default function CrashMap() {
   const [featureCountyIds, setFeatureCountyIds] = useState<string[]>([]);
   const [featureYears, setFeatureYears] = useState<string[]>([]);
 
-  const esriToken = process.env.NEXT_PUBLIC_ESRI_TOKEN!;
+  const esriToken = process.env.NEXT_PUBLIC_ESRI_TOKEN;
   const FEATURE_SERVICE_URL =
     'https://services5.arcgis.com/8DjE4f6iFLArDhsU/ArcGIS/rest/services/MyProject_gdb/FeatureServer/0';
 
-  // 1) Load Esri scripts & CSS
+  if (!esriToken) {
+    console.warn('❗ Missing ESRI token – check your .env or Amplify env variables');
+  }
+
   useEffect(() => {
     const loadScript = (src: string) =>
       new Promise<void>((res, rej) => {
@@ -66,6 +66,7 @@ export default function CrashMap() {
         s.onerror = () => rej();
         document.body.appendChild(s);
       });
+
     const loadCSS = (href: string) => {
       if (!document.querySelector(`link[href="${href}"]`)) {
         const l = document.createElement('link');
@@ -74,6 +75,7 @@ export default function CrashMap() {
         document.head.appendChild(l);
       }
     };
+
     (async () => {
       try {
         loadCSS('https://unpkg.com/esri-leaflet-geocoder@3.1.4/dist/esri-leaflet-geocoder.css');
@@ -87,20 +89,18 @@ export default function CrashMap() {
     })();
   }, []);
 
-  // 2) Initialize Leaflet map once Esri is ready
   useEffect(() => {
-    if (!scriptsReady || mapRef.current || !containerRef.current) return;
+    if (!scriptsReady || mapRef.current || !containerRef.current || !esriToken) return;
 
     const map = L.map(containerRef.current, {
       zoomControl: true,
       attributionControl: false,
     }).setView([30.2672, -97.7431], 8);
 
-    ;(window as any).L.esri.Vector.vectorBasemapLayer('ArcGIS:Streets', {
+    (window as any).L.esri.Vector.vectorBasemapLayer('ArcGIS:Streets', {
       apiKey: esriToken,
     }).addTo(map);
 
-    // Safely add geosearch
     try {
       const LEsri = (window as any).L.esri;
       const geo = LEsri?.Geocoding;
@@ -121,9 +121,8 @@ export default function CrashMap() {
     }
 
     mapRef.current = map;
-  }, [scriptsReady]);
+  }, [scriptsReady, esriToken]);
 
-  // 3) Fetch crashes.json & dictionary.csv, build dropdowns
   useEffect(() => {
     (async () => {
       try {
@@ -134,30 +133,31 @@ export default function CrashMap() {
         const crashJson: CrashRow[] = await crRes.json();
         setData(crashJson);
 
-        // Years
         const yrs = Array.from(new Set(crashJson.map(d => d.year.toString())))
           .sort((a, b) => parseInt(a) - parseInt(b))
           .map(v => ({ value: v, label: v }));
         setYearOptions(yrs);
 
-        // Parse dictionary.csv
         const text = await dictRes.text();
         const lines = text.trim().split('\n');
         const cMap: Record<string, string> = {};
         const cntMap: Record<string, string> = {};
+
         for (let i = 1; i < lines.length; i++) {
           const [col, id, desc] = lines[i].split(',');
+          if (!desc) continue;
           const name = toTitleCase(desc);
           if (col === 'CITY_ID') cMap[id] = name;
           else if (col === 'CNTY_ID') cntMap[id] = name;
         }
+
         setCityNames(cMap);
         setCountyNames(cntMap);
 
-        // Build city & county options, sorted alphabetically
         const cities = Array.from(new Set(crashJson.map(d => d.city_id)))
           .map(id => ({ value: id, label: `City of ${cMap[id] || id}` }))
           .sort((a, b) => a.label.localeCompare(b.label));
+
         const counties = Array.from(new Set(crashJson.map(d => d.county_id)))
           .map(id => ({ value: id, label: `${cntMap[id] || id} County` }))
           .sort((a, b) => a.label.localeCompare(b.label));
@@ -165,12 +165,11 @@ export default function CrashMap() {
         setCityOptions(cities);
         setCountyOptions(counties);
       } catch (e) {
-        console.error('Error loading data:', e);
+        console.error('Error loading data or dictionary:', e);
       }
     })();
   }, []);
 
-  // 4) Heatmap layer update
   useEffect(() => {
     if (!mapRef.current) return;
     heatLayerRef.current?.remove();
@@ -188,7 +187,6 @@ export default function CrashMap() {
     const points: [number, number, number][] = filtered.map(d => [d.lat, d.lng, 0.25]);
 
     if (points.length) {
-      // Use any-cast for plugin
       heatLayerRef.current = (L as any).heatLayer(points, {
         radius: 8,
         blur: 12,
@@ -204,7 +202,6 @@ export default function CrashMap() {
     showHeatmap, syncFilters,
   ]);
 
-  // 5) ESRI feature layer update
   useEffect(() => {
     if (!scriptsReady || !mapRef.current || !(window as any).L?.esri) return;
 
@@ -242,7 +239,6 @@ export default function CrashMap() {
     syncFilters,
   ]);
 
-  // 6) Strip Esri attribution overlay
   useEffect(() => {
     const iv = setInterval(() => {
       document.querySelector('.esri-dynamic-attribution')?.remove();
