@@ -1,0 +1,29 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-97.73, 30.28]
+            },
+            "properties": {
+                "location": "I-35 & Hwy 183",
+                "volume": 75000,
+                "peak_hour": "17:00"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-97.74, 30.26]
+            },
+            "properties": {
+                "location": "Mopac & 6th St",
+                "volume": 45000,
+                "peak_hour": "08:00"
+            }
+        }
+    ]
+}

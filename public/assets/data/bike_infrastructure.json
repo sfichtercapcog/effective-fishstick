@@ -1,0 +1,33 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [-97.74, 30.27],
+                    [-97.75, 30.28],
+                    [-97.74, 30.29]
+                ]
+            },
+            "properties": {
+                "name": "Downtown Bike Lane",
+                "type": "Protected",
+                "width": "6 ft"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-97.76, 30.265]
+            },
+            "properties": {
+                "name": "Bike Share Station",
+                "type": "Dock",
+                "capacity": 12
+            }
+        }
+    ]
+}

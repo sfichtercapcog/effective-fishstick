@@ -1,0 +1,36 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [-97.7431, 30.2672],
+                    [-97.7331, 30.2772],
+                    [-97.7231, 30.2872]
+                ]
+            },
+            "properties": {
+                "name": "Main St",
+                "type": "Arterial",
+                "lanes": 4
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [-97.7531, 30.2572],
+                    [-97.7431, 30.2472]
+                ]
+            },
+            "properties": {
+                "name": "River Rd",
+                "type": "Collector",
+                "lanes": 2
+            }
+        }
+    ]
+}

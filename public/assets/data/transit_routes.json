@@ -1,0 +1,33 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-97.75, 30.25]
+            },
+            "properties": {
+                "name": "Central Station",
+                "type": "Bus",
+                "routes": ["1A", "2B", "3C"]
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [-97.75, 30.25],
+                    [-97.76, 30.26],
+                    [-97.77, 30.27]
+                ]
+            },
+            "properties": {
+                "name": "Route 1A",
+                "type": "Bus",
+                "frequency": "15 min"
+            }
+        }
+    ]
+}

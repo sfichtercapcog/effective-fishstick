@@ -1,0 +1,705 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7431, 30.2672]
+        },
+        "properties": {
+          "location": "Lamar Blvd & 6th St",
+          "crash_count": 45,
+          "severity": "Fatal",
+          "contributing_factor": "DUI",
+          "last_incident": "2024-11-15"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7400, 30.2700]
+        },
+        "properties": {
+          "location": "Congress Ave & 5th St",
+          "crash_count": 38,
+          "severity": "Serious Injury",
+          "contributing_factor": "Speeding",
+          "last_incident": "2024-09-22"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7350, 30.2650]
+        },
+        "properties": {
+          "location": "I-35 & Riverside Dr",
+          "crash_count": 52,
+          "severity": "Fatal",
+          "contributing_factor": "Distraction",
+          "last_incident": "2024-10-05"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7500, 30.2600]
+        },
+        "properties": {
+          "location": "Mopac Expy & Barton Springs Rd",
+          "crash_count": 29,
+          "severity": "Minor Injury",
+          "contributing_factor": "Speeding",
+          "last_incident": "2024-08-30"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7280, 30.2750]
+        },
+        "properties": {
+          "location": "Guadalupe St & 24th St",
+          "crash_count": 41,
+          "severity": "Serious Injury",
+          "contributing_factor": "DUI",
+          "last_incident": "2024-07-19"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7550, 30.2800]
+        },
+        "properties": {
+          "location": "Burnet Rd & Anderson Ln",
+          "crash_count": 33,
+          "severity": "Fatal",
+          "contributing_factor": "Red Light Running",
+          "last_incident": "2024-12-01"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7200, 30.2550]
+        },
+        "properties": {
+          "location": "S 1st St & Oltorf St",
+          "crash_count": 27,
+          "severity": "Minor Injury",
+          "contributing_factor": "Distraction",
+          "last_incident": "2024-06-12"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7600, 30.2900]
+        },
+        "properties": {
+          "location": "Parmer Ln & Metric Blvd",
+          "crash_count": 48,
+          "severity": "Serious Injury",
+          "contributing_factor": "Speeding",
+          "last_incident": "2024-10-20"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7100, 30.2450]
+        },
+        "properties": {
+          "location": "Ben White Blvd & S Lamar Blvd",
+          "crash_count": 35,
+          "severity": "Fatal",
+          "contributing_factor": "DUI",
+          "last_incident": "2024-11-03"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7700, 30.3000]
+        },
+        "properties": {
+          "location": "Jollyville Rd & Braker Ln",
+          "crash_count": 40,
+          "severity": "Serious Injury",
+          "contributing_factor": "Red Light Running",
+          "last_incident": "2024-09-10"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7420, 30.2500]
+        },
+        "properties": {
+          "location": "Zilker Park Entrance",
+          "crash_count": 22,
+          "severity": "Minor Injury",
+          "contributing_factor": "Distraction",
+          "last_incident": "2024-05-25"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7380, 30.2850]
+        },
+        "properties": {
+          "location": "Dean Keeton St & Red River St",
+          "crash_count": 44,
+          "severity": "Fatal",
+          "contributing_factor": "Speeding",
+          "last_incident": "2024-12-15"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7250, 30.2950]
+        },
+        "properties": {
+          "location": "MLK Jr Blvd & Airport Blvd",
+          "crash_count": 37,
+          "severity": "Serious Injury",
+          "contributing_factor": "DUI",
+          "last_incident": "2024-08-05"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7800, 30.3100]
+        },
+        "properties": {
+          "location": "Duval Rd & Mopac Expy",
+          "crash_count": 31,
+          "severity": "Minor Injury",
+          "contributing_factor": "Distraction",
+          "last_incident": "2024-07-30"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7150, 30.2350]
+        },
+        "properties": {
+          "location": "Manchaca Rd & Stassney Ln",
+          "crash_count": 39,
+          "severity": "Fatal",
+          "contributing_factor": "Speeding",
+          "last_incident": "2024-11-25"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7900, 30.3200]
+        },
+        "properties": {
+          "location": "Research Blvd & Great Hills Trl",
+          "crash_count": 46,
+          "severity": "Serious Injury",
+          "contributing_factor": "Red Light Running",
+          "last_incident": "2024-10-15"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7000, 30.2250]
+        },
+        "properties": {
+          "location": "S Lamar Blvd & Barton Springs Rd",
+          "crash_count": 28,
+          "severity": "Minor Injury",
+          "contributing_factor": "Distraction",
+          "last_incident": "2024-06-20"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.8000, 30.3300]
+        },
+        "properties": {
+          "location": "Arboretum Blvd & Capital of Texas Hwy",
+          "crash_count": 42,
+          "severity": "Fatal",
+          "contributing_factor": "DUI",
+          "last_incident": "2024-12-05"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.7050, 30.2150]
+        },
+        "properties": {
+          "location": "W Slaughter Ln & S 1st St",
+          "crash_count": 34,
+          "severity": "Serious Injury",
+          "contributing_factor": "Speeding",
+          "last_incident": "2024-09-15"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.8100, 30.3400]
+        },
+        "properties": {
+          "location": "McNeil Dr & Parmer Ln",
+          "crash_count": 47,
+          "severity": "Fatal",
+          "contributing_factor": "Red Light Running",
+          "last_incident": "2024-11-10"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.6950, 30.2050]
+        },
+        "properties": {
+          "location": "William Cannon Dr & S Congress Ave",
+          "crash_count": 30,
+          "severity": "Minor Injury",
+          "contributing_factor": "Distraction",
+          "last_incident": "2024-07-05"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.8200, 30.3500]
+        },
+        "properties": {
+          "location": "Spicewood Springs Rd & Mesa Dr",
+          "crash_count": 43,
+          "severity": "Serious Injury",
+          "contributing_factor": "DUI",
+          "last_incident": "2024-10-25"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.6900, 30.1950]
+        },
+        "properties": {
+          "location": "S IH 35 & Onion Creek Pkwy",
+          "crash_count": 36,
+          "severity": "Fatal",
+          "contributing_factor": "Speeding",
+          "last_incident": "2024-12-20"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.8300, 30.3600]
+        },
+        "properties": {
+          "location": "Balcones Dr & Northland Dr",
+          "crash_count": 32,
+          "severity": "Minor Injury",
+          "contributing_factor": "Distraction",
+          "last_incident": "2024-08-15"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.6850, 30.1850]
+        },
+        "properties": {
+          "location": "Slaughter Ln & Brodie Ln",
+          "crash_count": 49,
+          "severity": "Serious Injury",
+          "contributing_factor": "Red Light Running",
+          "last_incident": "2024-11-30"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.8400, 30.3700]
+        },
+        "properties": {
+          "location": "Far West Blvd & Mopac Expy",
+          "crash_count": 38,
+          "severity": "Fatal",
+          "contributing_factor": "DUI",
+          "last_incident": "2024-12-25"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.6800, 30.1750]
+        },
+        "properties": {
+          "location": "Davis Ln & Escarpment Blvd",
+          "crash_count": 26,
+          "severity": "Minor Injury",
+          "contributing_factor": "Distraction",
+          "last_incident": "2024-06-30"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.8500, 30.3800]
+        },
+        "properties": {
+          "location": "Hancock Dr & Burnet Rd",
+          "crash_count": 45,
+          "severity": "Serious Injury",
+          "contributing_factor": "Speeding",
+          "last_incident": "2024-10-30"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.6750, 30.1650]
+        },
+        "properties": {
+          "location": "Convict Hill Rd & Mopac Expy",
+          "crash_count": 41,
+          "severity": "Fatal",
+          "contributing_factor": "Red Light Running",
+          "last_incident": "2024-12-10"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.8600, 30.3900]
+        },
+        "properties": {
+          "location": "Allandale Rd & Koenig Ln",
+          "crash_count": 29,
+          "severity": "Minor Injury",
+          "contributing_factor": "Distraction",
+          "last_incident": "2024-07-15"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.6700, 30.1550]
+        },
+        "properties": {
+          "location": "Circle Dr & S IH 35",
+          "crash_count": 50,
+          "severity": "Serious Injury",
+          "contributing_factor": "DUI",
+          "last_incident": "2024-11-20"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.8700, 30.4000]
+        },
+        "properties": {
+          "location": "North Lamar Blvd & Koenig Ln",
+          "crash_count": 37,
+          "severity": "Fatal",
+          "contributing_factor": "Speeding",
+          "last_incident": "2024-12-30"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.6650, 30.1450]
+        },
+        "properties": {
+          "location": "Brodie Ln & Davis Ln",
+          "crash_count": 33,
+          "severity": "Minor Injury",
+          "contributing_factor": "Distraction",
+          "last_incident": "2024-08-20"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.8800, 30.4100]
+        },
+        "properties": {
+          "location": "Airport Blvd & 51st St",
+          "crash_count": 46,
+          "severity": "Serious Injury",
+          "contributing_factor": "Red Light Running",
+          "last_incident": "2024-11-05"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.6600, 30.1350]
+        },
+        "properties": {
+          "location": "Slaughter Ln & Cullen Ln",
+          "crash_count": 39,
+          "severity": "Fatal",
+          "contributing_factor": "DUI",
+          "last_incident": "2024-12-15"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.8900, 30.4200]
+        },
+        "properties": {
+          "location": "Manor Rd & Springdale Rd",
+          "crash_count": 34,
+          "severity": "Minor Injury",
+          "contributing_factor": "Distraction",
+          "last_incident": "2024-09-20"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.6550, 30.1250]
+        },
+        "properties": {
+          "location": "William Cannon Dr & Bluff Springs Rd",
+          "crash_count": 48,
+          "severity": "Serious Injury",
+          "contributing_factor": "Speeding",
+          "last_incident": "2024-10-10"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.9000, 30.4300]
+        },
+        "properties": {
+          "location": "Cameron Rd & E 51st St",
+          "crash_count": 40,
+          "severity": "Fatal",
+          "contributing_factor": "Red Light Running",
+          "last_incident": "2024-12-20"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.6500, 30.1150]
+        },
+        "properties": {
+          "location": "S IH 35 & E Slaughter Ln",
+          "crash_count": 31,
+          "severity": "Minor Injury",
+          "contributing_factor": "Distraction",
+          "last_incident": "2024-07-25"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.9100, 30.4400]
+        },
+        "properties": {
+          "location": "Rundberg Ln & N Lamar Blvd",
+          "crash_count": 47,
+          "severity": "Serious Injury",
+          "contributing_factor": "DUI",
+          "last_incident": "2024-11-15"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.6450, 30.1050]
+        },
+        "properties": {
+          "location": "S IH 35 & FM 1327",
+          "crash_count": 36,
+          "severity": "Fatal",
+          "contributing_factor": "Speeding",
+          "last_incident": "2024-12-25"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.9200, 30.4500]
+        },
+        "properties": {
+          "location": "Georgian Dr & E Anderson Ln",
+          "crash_count": 42,
+          "severity": "Minor Injury",
+          "contributing_factor": "Distraction",
+          "last_incident": "2024-08-25"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.6400, 30.0950]
+        },
+        "properties": {
+          "location": "S IH 35 & Onion Creek Pkwy",
+          "crash_count": 38,
+          "severity": "Serious Injury",
+          "contributing_factor": "Red Light Running",
+          "last_incident": "2024-11-25"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.9300, 30.4600]
+        },
+        "properties": {
+          "location": "Dessau Rd & E Anderson Ln",
+          "crash_count": 44,
+          "severity": "Fatal",
+          "contributing_factor": "DUI",
+          "last_incident": "2024-12-30"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.6350, 30.0850]
+        },
+        "properties": {
+          "location": "S IH 35 & FM 1626",
+          "crash_count": 32,
+          "severity": "Minor Injury",
+          "contributing_factor": "Distraction",
+          "last_incident": "2024-07-30"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.9400, 30.4700]
+        },
+        "properties": {
+          "location": "E Anderson Ln & Cameron Rd",
+          "crash_count": 49,
+          "severity": "Serious Injury",
+          "contributing_factor": "Speeding",
+          "last_incident": "2024-11-30"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.6300, 30.0750]
+        },
+        "properties": {
+          "location": "S IH 35 & FM 150",
+          "crash_count": 35,
+          "severity": "Fatal",
+          "contributing_factor": "Red Light Running",
+          "last_incident": "2024-12-15"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.9500, 30.4800]
+        },
+        "properties": {
+          "location": "E Anderson Ln & Dessau Rd",
+          "crash_count": 41,
+          "severity": "Minor Injury",
+          "contributing_factor": "Distraction",
+          "last_incident": "2024-08-30"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.6250, 30.0650]
+        },
+        "properties": {
+          "location": "S IH 35 & FM 1825",
+          "crash_count": 46,
+          "severity": "Serious Injury",
+          "contributing_factor": "DUI",
+          "last_incident": "2024-11-10"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-97.9600, 30.4900]
+        },
+        "properties": {
+          "location": "E Anderson Ln & Georgian Dr",
+          "crash_count": 39,
+          "severity": "Fatal",
+          "contributing_factor": "Speeding",
+          "last_incident": "2024-12-20"
+        }
+      }
+    ]
+  }
