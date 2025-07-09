@@ -1,24 +1,23 @@
 // src/styles/jsonMarkerStyles.ts
+import { CircleMarkerOptions } from "leaflet";
 
-import L from "leaflet";
-
-export const defaultMarkerStyle = {
-  radius: 6,
-  color: "#0078FF",       // stroke color
-  fillColor: "#0078FF",   // fill color
-  fillOpacity: 0.9,
+export const defaultMarkerStyle: CircleMarkerOptions = {
+  radius: 8,
+  color: "#0078FF",
+  fillColor: "#0078FF",
+  fillOpacity: 0.85,
   weight: 2,
+  opacity: 0.7,
 };
 
-export const selectedMarkerStyle = {
-  radius: 6,
-  color: "#FF5722",       // stroke color for selected
-  fillColor: "#FF5722",   // fill color for selected
-  fillOpacity: 0.9,
+export const selectedMarkerStyle: CircleMarkerOptions = {
+  radius: 8,
+  color: "#FF5722",
+  fillColor: "#FF5722",
+  fillOpacity: 0.85,
   weight: 2,
+  opacity: 0.9,
 };
 
-// Optional: function-based style if you want dynamic logic
-export function getMarkerStyle(isSelected: boolean): L.PathOptions {
-  return isSelected ? selectedMarkerStyle : defaultMarkerStyle;
-}
+export const getMarkerStyle = (isSelected: boolean): CircleMarkerOptions =>
+  isSelected ? selectedMarkerStyle : defaultMarkerStyle;

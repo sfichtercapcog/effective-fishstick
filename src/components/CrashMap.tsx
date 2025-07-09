@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState, useRef } from "react";
+import L from "leaflet";
 import MapContainer from "./MapContainer";
 import HeatmapLayer from "./HeatmapLayer";
 import JsonLayer from "./JsonLayer";
-import L from "leaflet";
 import MapFilterControls from "./MapFilterControls";
 import FeatureDetailCard from "./FeatureDetailCard";
 
@@ -36,7 +36,6 @@ export default function CrashMap() {
     string,
     any
   > | null>(null);
-
   const mapRef = useRef<L.Map | null>(null);
 
   useEffect(() => {
@@ -114,16 +113,30 @@ export default function CrashMap() {
 
     if (bounds.isValid()) {
       mapRef.current.flyToBounds(bounds, {
-        padding: [60, 60], // slightly more padding for visual comfort
-        duration: 1.5, // smoother transition
-        maxZoom: 14, // don't zoom in closer than level 14
+        padding: [60, 60],
+        duration: 1.5,
+        maxZoom: 14,
       });
     }
   };
 
   const handleSelectCounty = (county: string) => {
     setSelectedCounty(county);
-    setSelectedMunicipality(""); // clear muni dropdown
+    setSelectedMunicipality("");
+  };
+
+  const renderPopup = (props: Record<string, any>) => {
+    const rows = [
+      ["Crash ID", props.Crash_ID],
+      ["Severity", props.crash_severity],
+      ["County", props.county],
+      ["Municipality", props.municipality],
+    ]
+      .filter(([_, val]) => val !== null && val !== undefined)
+      .map(([label, val]) => `<div><strong>${label}:</strong> ${val}</div>`)
+      .join("");
+
+    return `<div style="font-size: 0.85rem; line-height: 1.4;">${rows}</div>`;
   };
 
   return (
@@ -146,17 +159,15 @@ export default function CrashMap() {
         {showHeatmap && heatmapPoints.length > 0 && (
           <HeatmapLayer points={heatmapPoints} />
         )}
+
         {showPointLayer && filteredFeatures.length > 0 && (
           <JsonLayer
             map={mapRef.current}
-            data={
-              {
-                type: "FeatureCollection",
-                features: filteredFeatures,
-              } as GeoJSON.FeatureCollection
-            }
-            markerColor="#B22222"
-            selectedFeatureId={selectedFeature?.Crash_ID}
+            data={{
+              type: "FeatureCollection",
+              features: filteredFeatures,
+            }}
+            selectedFeature={selectedFeature}
             onSelect={(props) => {
               const { OBJECTID, ...rest } = props;
               setSelectedFeature(rest);
@@ -174,7 +185,17 @@ export default function CrashMap() {
       </MapContainer>
 
       <div style={{ marginTop: "1rem" }}>
-        <FeatureDetailCard properties={selectedFeature} />
+        <FeatureDetailCard
+          properties={
+            selectedFeature
+              ? Object.fromEntries(
+                  Object.entries(selectedFeature).filter(
+                    ([key]) => key !== "OBJECTID"
+                  )
+                )
+              : null
+          }
+        />
       </div>
     </div>
   );

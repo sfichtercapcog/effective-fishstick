@@ -41,7 +41,7 @@ export default function QuietZonesMap() {
         <JsonLayer
           map={mapRef.current}
           data={geojson}
-          markerColor="#B22222"
+          selectedFeature={selected}
           onSelect={setSelected}
           renderPopup={renderPopup}
         />
