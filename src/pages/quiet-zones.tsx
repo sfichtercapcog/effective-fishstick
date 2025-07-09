@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Layout from "@/components/Layout";
+import Head from "next/head";
 
 const QuietZonesMap = dynamic(() => import("@/components/QuietZonesMap"), {
   ssr: false,
@@ -10,6 +11,14 @@ const QuietZonesMap = dynamic(() => import("@/components/QuietZonesMap"), {
 export default function QuietZonesPage() {
   return (
     <Layout>
+      <Head>
+        <title>Quiet Zones – Moving Central Texas</title>
+        <meta
+          name="description"
+          content="Learn about railroad Quiet Zones in the CAPCOG region and view the interactive map."
+        />
+      </Head>
+
       <h1>Railroad Quiet Zones in the CAPCOG Region</h1>
 
       <section>
