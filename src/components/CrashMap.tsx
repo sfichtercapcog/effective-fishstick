@@ -163,23 +163,18 @@ export default function CrashMap() {
         {showPointLayer && filteredFeatures.length > 0 && (
           <JsonLayer
             map={mapRef.current}
-            data={{
-              type: "FeatureCollection",
-              features: filteredFeatures,
-            }}
+            data={
+              {
+                type: "FeatureCollection",
+                features: filteredFeatures,
+              } as GeoJSON.FeatureCollection
+            }
             selectedFeature={selectedFeature}
             onSelect={(props) => {
               const { OBJECTID, ...rest } = props;
               setSelectedFeature(rest);
             }}
-            renderPopup={(props) => `
-      <div style="font-size: 0.85rem;">
-        <strong>Crash ID:</strong> ${props.Crash_ID ?? "N/A"}<br/>
-        <strong>Severity:</strong> ${props.crash_severity ?? "Unknown"}<br/>
-        <strong>County:</strong> ${props.county ?? ""}<br/>
-        <strong>Municipality:</strong> ${props.municipality ?? ""}
-      </div>
-    `}
+            renderPopup={renderPopup}
           />
         )}
       </MapContainer>
