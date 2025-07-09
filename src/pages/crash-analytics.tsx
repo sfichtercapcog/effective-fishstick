@@ -56,22 +56,33 @@ export default function CrashAnalyticsPage() {
 
         <details className="disclaimer" open>
           <summary>
-            <strong>Data Note:</strong> Occasional Labeling Inconsistencies
+            <strong>Data Note:</strong> Geographic Accuracy & Labeling
+            Clarification
           </summary>
           <p>
-            A small number of crashes may appear with jurisdictions that don’t
-            match their actual location—such as a crash in downtown Austin
-            labeled as Fort Worth, or a crash in Johnson City labeled as Willacy
-            County. These records and identifications come directly from
-            official TxDOT datasets and are shown as-is to reflect source
-            identifiers. While over 99.9% of records align correctly, we’re
-            actively working with data providers to improve labeling accuracy.
+            All crash locations displayed on this page are based on their actual
+            recorded geographic coordinates (latitude and longitude). We assign
+            jurisdictions (such as county and municipality) using current 2025
+            boundary data. As a result, boundary shifts since earlier crash
+            years (e.g., 2015) may cause slight differences between where a
+            crash is mapped and the jurisdiction it may have belonged to at the
+            time.
           </p>
           <p>
-            To ensure geographic accuracy within this tool, we filter crashes
-            based on their actual coordinates (latitude/longitude) to display
-            only those that occurred within the region—even if their assigned
-            jurisdiction label is incorrect.
+            The source data from TxDOT is extremely well-geocoded—more than
+            99.9% of crash records are placed accurately on the map. However,
+            like any large dataset, a small number of records contain labeling
+            anomalies. For example, a crash occurring in downtown Austin might
+            be tagged as Fort Worth, or a rural Fayette County crash might be
+            tagged as Wilacy County.
+          </p>
+          <p>
+            To present a more geographically accurate and contextually relevant
+            view, we’ve coded our filters and displays using the actual location
+            of each crash and standardized boundaries. This may result in totals
+            that differ slightly from official TxDOT statistics, but we believe
+            this approach provides a clearer and more accurate spatial
+            representation of where crashes actually occurred.
           </p>
         </details>
 

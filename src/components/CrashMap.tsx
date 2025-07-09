@@ -1,132 +1,173 @@
-// components/CrashMap.tsx
-
 "use client";
 
-import { useMemo, useRef, useState } from "react";
-import L from "leaflet";
-import useCrashData from "./useCrashData";
-import FilterControls from "./FilterControls";
-import DisplayOptions from "./DisplayOptions";
-import SyncToggle from "./SyncToggle";
+import { useEffect, useMemo, useState, useRef } from "react";
 import MapContainer from "./MapContainer";
 import HeatmapLayer from "./HeatmapLayer";
-import FeatureLayer from "./FeatureLayer";
+import JsonLayer from "./JsonLayer";
+import L from "leaflet";
+import MapFilterControls from "./MapFilterControls";
+import FeatureDetailCard from "./FeatureDetailCard";
+
+type CrashFeature = GeoJSON.Feature<
+  GeoJSON.Point,
+  {
+    county: string;
+    municipality: string;
+    Latitude: number;
+    Longitude: number;
+    Crash_ID?: number;
+    crash_severity?: string;
+    OBJECTID?: number;
+  }
+>;
+
+type GeoJsonData = {
+  type: "FeatureCollection";
+  features: CrashFeature[];
+};
 
 export default function CrashMap() {
-  const { data, cityOptions, countyOptions, yearOptions } = useCrashData();
+  const [geojson, setGeojson] = useState<GeoJsonData | null>(null);
+  const [selectedCounty, setSelectedCounty] = useState("");
+  const [selectedMunicipality, setSelectedMunicipality] = useState("");
+  const [showHeatmap, setShowHeatmap] = useState(false);
+  const [showPointLayer, setShowPointLayer] = useState(false);
+  const [selectedFeature, setSelectedFeature] = useState<Record<
+    string,
+    any
+  > | null>(null);
 
   const mapRef = useRef<L.Map | null>(null);
 
-  const [syncFilters, setSyncFilters] = useState(true);
-  const [heatCityIds, setHeatCityIds] = useState<string[]>([]);
-  const [heatCountyIds, setHeatCountyIds] = useState<string[]>([]);
-  const [heatYears, setHeatYears] = useState<string[]>([]);
-  const [featureCityIds, setFeatureCityIds] = useState<string[]>([]);
-  const [featureCountyIds, setFeatureCountyIds] = useState<string[]>([]);
-  const [featureYears, setFeatureYears] = useState<string[]>([]);
-  const [showHeatmap, setShowHeatmap] = useState(false);
-  const [showFeatureLayer, setShowFeatureLayer] = useState(false);
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const res = await fetch("/data/compressed-crashes.json");
+        const json: GeoJsonData = await res.json();
+        setGeojson(json);
+      } catch (err) {
+        console.error("Failed to load geojson:", err);
+      }
+    };
+    loadData();
+  }, []);
 
-  const esriToken = process.env.NEXT_PUBLIC_ESRI_TOKEN;
-  const FEATURE_SERVICE_URL =
-    "https://services5.arcgis.com/8DjE4f6iFLArDhsU/ArcGIS/rest/services/MyProject_gdb/FeatureServer/0";
+  const countyOptions = useMemo(() => {
+    if (!geojson) return [];
+    return Array.from(
+      new Set(geojson.features.map((f) => f.properties.county))
+    ).sort();
+  }, [geojson]);
 
-  const filteredData = useMemo(() => {
-    const cities = syncFilters ? featureCityIds : heatCityIds;
-    const counties = syncFilters ? featureCountyIds : heatCountyIds;
-    const years = syncFilters ? featureYears : heatYears;
+  const municipalityOptions = useMemo(() => {
+    if (!geojson) return [];
+    const all = Array.from(
+      new Set(
+        geojson.features
+          .filter(
+            (f) => !selectedCounty || f.properties.county === selectedCounty
+          )
+          .map((f) => f.properties.municipality)
+      )
+    );
 
-    let filtered = data;
-    if (cities.length)
-      filtered = filtered.filter((d) => cities.includes(d.city_id));
-    if (counties.length)
-      filtered = filtered.filter((d) => counties.includes(d.county_id));
-    if (years.length)
-      filtered = filtered.filter((d) => years.includes(d.year.toString()));
+    const named = all
+      .filter((m) => !m.toLowerCase().startsWith("unincorporated"))
+      .sort();
+    const unincorporated = all
+      .filter((m) => m.toLowerCase().startsWith("unincorporated"))
+      .sort();
 
-    return filtered;
-  }, [
-    data,
-    heatCityIds,
-    heatCountyIds,
-    heatYears,
-    featureCityIds,
-    featureCountyIds,
-    featureYears,
-    syncFilters,
-  ]);
+    return [...named, ...unincorporated];
+  }, [geojson, selectedCounty]);
 
-  const filteredHeatmapPoints = useMemo(() => {
-    return filteredData.map((d) => [d.lat, d.lng, 0.25]) as [
-      number,
-      number,
-      number
-    ][];
-  }, [filteredData]);
+  const filteredFeatures = useMemo(() => {
+    if (!geojson) return [];
+    return geojson.features.filter((f) => {
+      const countyMatch = selectedCounty
+        ? f.properties.county === selectedCounty
+        : true;
+      const muniMatch = selectedMunicipality
+        ? f.properties.municipality === selectedMunicipality
+        : true;
+      return countyMatch && muniMatch;
+    });
+  }, [geojson, selectedCounty, selectedMunicipality]);
+
+  const heatmapPoints = useMemo(() => {
+    return filteredFeatures.map((f) => [
+      f.geometry.coordinates[1],
+      f.geometry.coordinates[0],
+      0.5,
+    ]) as [number, number, number][];
+  }, [filteredFeatures]);
 
   const handleZoomToExtent = () => {
-    const latlngs = filteredData
-      .filter((d) => typeof d.lat === "number" && typeof d.lng === "number")
-      .map((d) => [d.lat, d.lng] as [number, number]);
+    if (!mapRef.current || filteredFeatures.length === 0) return;
 
-    if (!mapRef.current || latlngs.length === 0) return;
+    const latlngs = filteredFeatures.map((f) => [
+      f.geometry.coordinates[1],
+      f.geometry.coordinates[0],
+    ]) as [number, number][];
 
     const bounds = L.latLngBounds(latlngs);
+
     if (bounds.isValid()) {
       mapRef.current.flyToBounds(bounds, {
-        padding: [50, 50],
-        duration: 1,
-        easeLinearity: 0.1,
+        padding: [60, 60], // slightly more padding for visual comfort
+        duration: 1.5, // smoother transition
+        maxZoom: 14, // don't zoom in closer than level 14
       });
     }
   };
 
+  const handleSelectCounty = (county: string) => {
+    setSelectedCounty(county);
+    setSelectedMunicipality(""); // clear muni dropdown
+  };
+
   return (
     <div>
-      <SyncToggle syncFilters={syncFilters} setSyncFilters={setSyncFilters} />
-
-      <FilterControls
-        cityOptions={cityOptions}
+      <MapFilterControls
         countyOptions={countyOptions}
-        yearOptions={yearOptions}
-        heatCityIds={heatCityIds}
-        heatCountyIds={heatCountyIds}
-        heatYears={heatYears}
-        featureCityIds={featureCityIds}
-        featureCountyIds={featureCountyIds}
-        featureYears={featureYears}
-        syncFilters={syncFilters}
-        setHeatCityIds={setHeatCityIds}
-        setHeatCountyIds={setHeatCountyIds}
-        setHeatYears={setHeatYears}
-        setFeatureCityIds={setFeatureCityIds}
-        setFeatureCountyIds={setFeatureCountyIds}
-        setFeatureYears={setFeatureYears}
-      />
-
-      <DisplayOptions
+        municipalityOptions={municipalityOptions}
+        selectedCounty={selectedCounty}
+        selectedMunicipality={selectedMunicipality}
         showHeatmap={showHeatmap}
-        showFeatureLayer={showFeatureLayer}
-        setShowHeatmap={setShowHeatmap}
-        setShowFeatureLayer={setShowFeatureLayer}
+        showPointLayer={showPointLayer}
+        onToggleHeatmap={() => setShowHeatmap(!showHeatmap)}
+        onTogglePointLayer={() => setShowPointLayer(!showPointLayer)}
+        onSelectCounty={handleSelectCounty}
+        onSelectMunicipality={setSelectedMunicipality}
         onZoomToExtent={handleZoomToExtent}
       />
 
-      <MapContainer mapRef={mapRef}>
-        {showHeatmap && filteredHeatmapPoints.length > 0 && (
-          <HeatmapLayer points={filteredHeatmapPoints} />
+      <MapContainer center={[30.2672, -97.7431]} zoom={9} mapRef={mapRef}>
+        {showHeatmap && heatmapPoints.length > 0 && (
+          <HeatmapLayer points={heatmapPoints} />
         )}
-
-        {showFeatureLayer && (
-          <FeatureLayer
-            esriUrl={FEATURE_SERVICE_URL}
-            cityIds={syncFilters ? heatCityIds : featureCityIds}
-            countyIds={syncFilters ? heatCountyIds : featureCountyIds}
-            years={syncFilters ? heatYears : featureYears}
-            esriToken={esriToken}
+        {showPointLayer && filteredFeatures.length > 0 && (
+          <JsonLayer
+            map={mapRef.current}
+            data={
+              {
+                type: "FeatureCollection",
+                features: filteredFeatures,
+              } as GeoJSON.FeatureCollection
+            }
+            markerColor="#0078FF"
+            selectedFeatureId={selectedFeature?.Crash_ID}
+            onSelect={(props) => {
+              const { OBJECTID, ...rest } = props;
+              setSelectedFeature(rest);
+            }}
           />
         )}
       </MapContainer>
+
+      <div style={{ marginTop: "1rem" }}>
+        <FeatureDetailCard properties={selectedFeature} />
+      </div>
     </div>
   );
 }
