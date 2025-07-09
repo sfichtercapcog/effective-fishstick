@@ -36,6 +36,7 @@ export default function CrashMap() {
     string,
     any
   > | null>(null);
+
   const mapRef = useRef<L.Map | null>(null);
 
   useEffect(() => {
@@ -170,10 +171,7 @@ export default function CrashMap() {
               } as GeoJSON.FeatureCollection
             }
             selectedFeature={selectedFeature}
-            onSelect={(props) => {
-              const { OBJECTID, ...rest } = props;
-              setSelectedFeature(rest);
-            }}
+            onSelect={setSelectedFeature} // PASS DIRECTLY
             renderPopup={renderPopup}
           />
         )}

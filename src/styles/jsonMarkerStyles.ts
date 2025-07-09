@@ -2,7 +2,7 @@
 import { CircleMarkerOptions } from "leaflet";
 
 export const defaultMarkerStyle: CircleMarkerOptions = {
-  radius: 8,
+  radius: 6,
   color: "#0078FF",
   fillColor: "#0078FF",
   fillOpacity: 0.85,
