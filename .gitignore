@@ -1,0 +1,78 @@
+# === Node.js ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === Next.js ===
+.next/
+out/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# === Testing & Coverage ===
+coverage/
+*.lcov
+.nyc_output/
+report.*.json
+
+# === TypeScript / Lint / Cache ===
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+
+# === Env Files ===
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*
+!.env.example
+
+# === Large local-only data files ===
+public/data/testing-data.json
+public/data/compressed-data.json  # legacy too big
+# NOTE: We keep compressed-crashes.json — don't ignore it
+
+# === Editor / System ===
+.DS_Store
+*.pem
+*.log
+logs/
+.vscode/
+.node_repl_history
+
+# === Misc Tooling ===
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# === Build Tools ===
+.cache/
+.parcel-cache/
+dist/
+.temp/
+
+# === Frameworks ===
+.nuxt/
+.vuepress/
+.svelte-kit/
+.docusaurus/
+.serverless/
+.fusebox/
+.dynamodb/
+.firebase/
+.tern-port/
+.vitepress/
+web_modules/
+bower_components/
+jspm_packages/
+lib-cov/
+
+# === GitHub Pages ===
+*.tgz

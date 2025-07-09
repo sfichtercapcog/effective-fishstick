@@ -1,0 +1,466 @@
+/* ==========================================================================
+   Global CSS - Optimized Light Mode Theme for Moving Central Texas (CAPCOG-Inspired)
+   ========================================================================== */
+
+/* Core theming variables */
+:root {
+  /* Colors - Light mode with CAPCOG red and navy blue accents */
+  --primary-color: #A6192E;    /* CAPCOG red */
+  --secondary-color: #003087;  /* CAPCOG navy blue */
+  --text-color: #6B6C70;       /* CAPCOG dark gray for main text */
+  --background-dark: #FFFFFF;  /* White for light mode */
+  --accent-color: #005EB8;     /* Lighter blue for hovers */
+  --shadow-color: rgba(0, 48, 135, 0.35); /* Navy blue shadow */
+  --alert-bg: #6B6C70;         /* Dark gray for alerts (was warning-bg) */
+  --alert-border: #003087;     /* Navy blue for alert borders */
+  --alert-text: #FFFFFF;       /* White for high contrast in alerts */
+
+  /* Shadows - Now include color for completeness */
+  --shadow-sm: 0 1px 2px var(--shadow-color);      /* Small shadow */
+  --shadow-md: 0 2px 6px var(--shadow-color);      /* Medium shadow */
+  --shadow-lg: 0 4px 8px var(--shadow-color);      /* Large shadow */
+  --btn-shadow: 0 2px 6px var(--shadow-color);     /* Button-specific shadow */
+
+  /* Typography */
+  --font-family: 'Arial', 'Helvetica', 'system-ui', sans-serif;
+  --font-size-base: 1rem;      /* 16px base */
+  --line-height-base: 1.65;    /* Enhanced readability */
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;       /* 4px */
+  --spacing-sm: 0.5rem;        /* 8px */
+  --spacing-md: 1rem;          /* 16px */
+  --spacing-lg: 1.5rem;        /* 24px */
+  --spacing-xl: 2rem;          /* 32px */
+
+  /* Breakpoints */
+  --breakpoint-tablet: 768px;
+  --breakpoint-mobile: 480px;
+  --breakpoint-small-mobile: 320px;
+}
+
+/* Reset and base styles */
+html {
+  font-size: var(--font-size-base);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: clamp(0.95rem, 2vw, 1rem);
+  line-height: var(--line-height-base);
+  color: var(--text-color);
+  background-color: var(--background-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+/* Layout */
+.container {
+  width: 100%;
+  max-width: clamp(960px, 90vw, 1280px); /* Adaptive max-width */
+  margin: 0 auto;
+  padding: 0 clamp(var(--spacing-sm), 2vw, var(--spacing-md));
+  box-sizing: border-box; /* Ensure padding doesn’t bloat */
+}
+
+/* Top Section (Non-Sticky Title and Subtitle) */
+.top-section {
+  text-align: center;
+  padding: var(--spacing-md) 0 var(--spacing-lg); /* Reduced top padding */
+  background: var(--background-dark);
+}
+
+/* Site Title and Subtitle */
+.site-title {
+  text-align: center;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--secondary-color);
+  margin: var(--spacing-sm) 0;
+  letter-spacing: 0.02em;
+}
+
+.site-subtitle {
+  text-align: center;
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: var(--spacing-md);
+}
+
+/* Navigation Banner */
+.nav-banner {
+  background: var(--secondary-color); /* CAPCOG navy blue */
+  padding: var(--spacing-sm) 0;
+  position: static; /* Static position for non-sticky header */
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--shadow-lg);
+  transform: translateZ(0);
+}
+
+.nav-banner .container {
+  display: flex;
+  justify-content: center; /* Center the entire banner content */
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-md); /* Consistent gap between logo and links */
+}
+
+.logo {
+  max-width: 120px; /* Reduced size for better balance */
+  height: auto;
+}
+
+.nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  justify-content: center;
+  padding: 0;
+  gap: var(--spacing-md); /* Consistent gap between links */
+}
+
+.nav-link {
+  color: #FFFFFF; /* White for contrast on red */
+  font-weight: 600;
+  padding: var(--spacing-sm) var(--spacing-md); /* Uniform padding */
+  border-radius: 0.375rem;
+  background: var(--primary-color);
+  text-decoration: none;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  display: block;
+  opacity: 0.9;
+  will-change: background-color, box-shadow;
+  white-space: nowrap; /* Prevent link text wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%; /* Contain within parent */
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  background: var(--secondary-color);
+  color: #FFFFFF; /* Retain white for contrast */
+  box-shadow: var(--shadow-md);
+  opacity: 1;
+}
+
+/* Typography */
+h1, h2, h3 {
+  color: var(--secondary-color);
+  font-weight: 700;
+  margin-bottom: var(--spacing-md);
+  letter-spacing: 0.01em;
+  word-break: break-word; /* Handle long titles */
+  overflow-wrap: anywhere; /* Modern overflow handling */
+}
+
+h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); }
+h2 { font-size: clamp(1.375rem, 3vw, 2rem); }
+h3 { font-size: clamp(1.125rem, 2vw, 1.5rem); }
+
+p {
+  margin-bottom: var(--spacing-md);
+  font-weight: 400;
+  line-height: var(--line-height-base);
+  word-break: break-word; /* Prevent overflow */
+}
+
+/* Links */
+a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover,
+a:focus {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+/* Main content */
+main {
+  background: var(--background-dark);
+  padding: clamp(var(--spacing-md), 3vw, var(--spacing-lg)) 0;
+  position: relative;
+  z-index: 10; /* Above content, below header */
+}
+
+/* Disclaimer */
+.disclaimer {
+  background: var(--alert-bg);
+  border: 1px solid var(--alert-border);
+  border-left: 4px solid var(--accent-color);
+  border-radius: 0.5rem;
+  padding: clamp(var(--spacing-sm), 2vw, var(--spacing-md)); /* Responsive */
+  margin: clamp(var(--spacing-sm), 2vw, var(--spacing-md)) 0;
+  color: var(--alert-text);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Buttons */
+.btn {
+  background: var(--primary-color);
+  color: #FFFFFF; /* White text for buttons */
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  border-radius: 0.375rem;
+  margin: var(--spacing-sm) 0;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  width: clamp(10rem, 80vw, 20rem); /* Consistent width */
+}
+
+.btn:hover,
+.btn:focus {
+  background: var(--secondary-color);
+  color: #FFFFFF; /* White text on hover */
+  box-shadow: var(--btn-shadow);
+  transform: scale(1.02);
+}
+
+.btn--warning {
+  background: var(--alert-bg);
+  color: var(--alert-text);
+}
+
+.btn--warning:hover,
+.btn--warning:focus {
+  background: var(--alert-border);
+  color: #FFFFFF; /* Retain white for contrast */
+  box-shadow: var(--btn-shadow);
+  transform: scale(1.02);
+}
+
+/* Footer */
+footer {
+  background: var(--secondary-color); /* CAPCOG navy blue */
+  padding: clamp(var(--spacing-md), 3vw, var(--spacing-lg)); /* Responsive */
+  box-shadow: 0 -4px 8px var(--shadow-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: clamp(var(--spacing-xs), 1vw, var(--spacing-sm));
+  min-height: clamp(4rem, 10vh, 6rem);
+}
+
+footer p {
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+  color: #FFFFFF; /* White for contrast on navy */
+  text-align: center;
+}
+
+footer a {
+  color: #FFFFFF; /* White for contrast on navy */
+}
+
+footer a:hover,
+footer a:focus {
+  color: var(--primary-color); /* Red for hover */
+}
+
+/* Blog, Project, Report Sections */
+.blog-post, .project, .report {
+  margin: clamp(var(--spacing-lg), 3vw, var(--spacing-xl)) 0;
+  padding: clamp(var(--spacing-md), 3vw, var(--spacing-lg));
+  border: 2px solid var(--primary-color); /* Full CAPCOG red border */
+  background-color: #F9F9F9; /* Light gray background */
+  border-radius: 0.5rem; /* Rounded corners */
+  box-shadow: var(--shadow-md); /* Medium shadow for depth */
+}
+
+.blog-post h2, .project h2, .report h2 {
+  background-color: var(--secondary-color); /* CAPCOG navy blue title background */
+  color: #FFFFFF; /* White text for contrast */
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 0.25rem; /* Slightly rounded title */
+  margin-top: 0; /* Align with top of section */
+}
+
+/* Accessibility */
+:focus {
+  outline: 3px solid var(--secondary-color);
+  outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Responsive Design */
+@media (max-width: var(--breakpoint-tablet)) {
+  .container {
+    padding: 0 clamp(var(--spacing-sm), 1.5vw, var(--spacing-md)); /* Slightly larger min */
+  }
+  .nav-banner .container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .logo {
+    margin-bottom: var(--spacing-sm);
+  }
+  .nav-list {
+    justify-content: center; /* Center stacked links on mobile */
+    gap: var(--spacing-sm); /* Tighter spacing on mobile */
+  }
+  main {
+    padding: clamp(var(--spacing-sm), 2vw, var(--spacing-md));
+    margin: clamp(var(--spacing-xs), 1.5vw, var(--spacing-sm)) 0;
+  }
+  .disclaimer {
+    font-size: clamp(0.9rem, 2vw, 1rem);
+  }
+  .blog-post, .project, .report {
+    margin: clamp(var(--spacing-md), 2vw, var(--spacing-lg)) 0;
+    padding: clamp(var(--spacing-sm), 2vw, var(--spacing-md));
+  }
+}
+
+@media (max-width: var(--breakpoint-mobile)) {
+  .nav-list {
+    gap: var(--spacing-sm);
+  }
+  .btn {
+    width: 100%; /* Full-width on mobile */
+  }
+  .blog-post, .project, .report {
+    margin: clamp(var(--spacing-sm), 1.5vw, var(--spacing-md)) 0;
+    padding: clamp(var(--spacing-xs), 1.5vw, var(--spacing-sm));
+  }
+  .blog-post h2, .project h2, .report h2 {
+    font-size: clamp(1.25rem, 3vw, 1.75rem); /* Slightly smaller title */
+  }
+}
+
+@media (max-width: var(--breakpoint-small-mobile)) {
+  h1 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
+  h2 { font-size: clamp(1rem, 2vw, 1.25rem); }
+  h3 { font-size: clamp(0.875rem, 1.5vw, 1.125rem); }
+  .container {
+    padding: 0 clamp(var(--spacing-sm), 1.5vw, var(--spacing-md)); /* Avoid cramped feel */
+  }
+  main {
+    padding: clamp(var(--spacing-xs), 1.5vw, var(--spacing-sm));
+    margin: var(--spacing-xs) 0;
+  }
+  .blog-post, .project, .report {
+    margin: clamp(var(--spacing-xs), 1vw, var(--spacing-sm)) 0;
+    padding: clamp(var(--spacing-xs), 1vw, var(--spacing-sm));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+  .btn:hover, .btn:focus,
+  .btn--warning:hover, .btn--warning:focus {
+    transform: none; /* Disable scale */
+    box-shadow: var(--btn-shadow); /* Retain shadow feedback */
+  }
+  .nav-link:hover, .nav-link:focus {
+    opacity: 1; /* Retain opacity feedback */
+  }
+}
+
+/* Ultra-wide screens */
+@media (min-width: 1920px) {
+  .container {
+    padding: 0 clamp(var(--spacing-md), 3vw, var(--spacing-lg)); /* Wider padding */
+  }
+}
+
+/* Print Styles */
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+  header, main, footer {
+    box-shadow: none;
+    background: none;
+    padding: 1cm;
+    margin: 0;
+  }
+  .nav-banner {
+    display: none; /* Hide navigation */
+  }
+  .disclaimer {
+    display: block;
+    background: #f5f5f5; /* Light gray for distinction */
+    border: 1px solid #000;
+    color: #000;
+    padding: 0.5cm;
+    margin: 0.5cm 0;
+  }
+  .blog-post, .project, .report {
+    border: 1px solid #000; /* Full boundary for each section */
+    background: none;
+    box-shadow: none;
+    margin: 0.5cm 0;
+    padding: 0.5cm;
+    page-break-inside: auto; /* Allow splitting for long sections */
+    box-decoration-break: clone; /* Clone borders across page breaks */
+    -webkit-box-decoration-break: clone; /* Vendor prefix for compatibility */
+  }
+  @page {
+    margin: 1cm; /* Ensure space for borders */
+  }
+  .blog-post h2, .project h2, .report h2 {
+    background: none;
+    color: #000;
+    padding: 0;
+    border-bottom: 1px solid #000; /* Underline title */
+    margin-top: 0;
+    font-size: 16pt;
+    page-break-after: avoid;
+  }
+  .report-segment {
+    page-break-inside: avoid; /* Keep h3 and content together */
+    margin-bottom: 0.5cm;
+  }
+  .report-segment h3 {
+    font-size: 14pt;
+    margin-bottom: 0.25cm;
+    page-break-after: avoid;
+  }
+  a {
+    color: #000;
+    text-decoration: underline;
+  }
+  a[href]:after {
+    content: " (" attr(href) ")"; /* Show URLs after links */
+    font-size: 10pt;
+  }
+  h1 { font-size: 18pt; }
+  h2 { font-size: 16pt; }
+  h3 { font-size: 14pt; }
+  footer {
+    font-size: 10pt;
+    padding-top: 1cm;
+  }
+}
+
+/* Active state with white border, same red background */
+.nav-link.active {
+    background: var(--primary-color); /* Same red background as normal nav-link */
+    color: #FFFFFF; /* White for contrast */
+    box-shadow: var(--shadow-md); /* Retain medium shadow */
+    opacity: 1; /* Full opacity */
+    border: 2px solid #FFFFFF; /* White border for distinction */
+    transition: all 0.2s ease; /* Smooth transition */
+}

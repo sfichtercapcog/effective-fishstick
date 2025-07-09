@@ -1,0 +1,458 @@
+[
+    {
+        "name":"City of Austin",
+        "lmiPercentage":47.2,
+        "population":961855,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Bartlett",
+        "lmiPercentage":56.2,
+        "population":1633,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Bastrop",
+        "lmiPercentage":46.2,
+        "population":9688,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Bear Creek",
+        "lmiPercentage":28.3,
+        "population":397,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Bee Cave",
+        "lmiPercentage":28.0,
+        "population":9144,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Bertram",
+        "lmiPercentage":33.2,
+        "population":1616,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Blanco",
+        "lmiPercentage":40.7,
+        "population":1682,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Briarcliff",
+        "lmiPercentage":21.4,
+        "population":2062,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Buda",
+        "lmiPercentage":36.7,
+        "population":15108,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Burnet",
+        "lmiPercentage":29.1,
+        "population":6436,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Cedar Park",
+        "lmiPercentage":27.8,
+        "population":77595,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Cottonwood Shores",
+        "lmiPercentage":64.7,
+        "population":1403,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Coupland",
+        "lmiPercentage":21.3,
+        "population":289,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Creedmoor",
+        "lmiPercentage":70.6,
+        "population":458,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Double Horn",
+        "lmiPercentage":null,
+        "population":0,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Dripping Springs",
+        "lmiPercentage":40.1,
+        "population":4650,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Elgin",
+        "lmiPercentage":50.5,
+        "population":9784,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Flatonia",
+        "lmiPercentage":41.3,
+        "population":1308,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Florence",
+        "lmiPercentage":65.0,
+        "population":1171,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Georgetown",
+        "lmiPercentage":42.5,
+        "population":67176,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Giddings",
+        "lmiPercentage":56.9,
+        "population":4969,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Granger",
+        "lmiPercentage":69.5,
+        "population":1183,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Granite Shoals",
+        "lmiPercentage":61.6,
+        "population":5129,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Hays",
+        "lmiPercentage":32.1,
+        "population":227,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Highland Haven",
+        "lmiPercentage":31.6,
+        "population":418,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Horseshoe Bay",
+        "lmiPercentage":28.6,
+        "population":4257,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Hutto",
+        "lmiPercentage":40.0,
+        "population":27577,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Jarrell",
+        "lmiPercentage":31.3,
+        "population":1753,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Johnson City",
+        "lmiPercentage":49.6,
+        "population":1627,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Jonestown",
+        "lmiPercentage":37.5,
+        "population":2365,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Kyle",
+        "lmiPercentage":48.0,
+        "population":45697,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Lago Vista",
+        "lmiPercentage":35.9,
+        "population":8896,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Lakeway",
+        "lmiPercentage":16.2,
+        "population":19189,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Leander",
+        "lmiPercentage":34.2,
+        "population":59202,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Lexington",
+        "lmiPercentage":37.7,
+        "population":1217,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Liberty Hill",
+        "lmiPercentage":71.2,
+        "population":3646,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Llano",
+        "lmiPercentage":47.2,
+        "population":3325,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Lockhart",
+        "lmiPercentage":56.7,
+        "population":14379,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Luling",
+        "lmiPercentage":64.1,
+        "population":5599,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Manor",
+        "lmiPercentage":44.2,
+        "population":13652,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Marble Falls",
+        "lmiPercentage":42.6,
+        "population":7037,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Martindale",
+        "lmiPercentage":48.1,
+        "population":1253,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Meadowlakes",
+        "lmiPercentage":19.8,
+        "population":1907,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Mountain City",
+        "lmiPercentage":15.9,
+        "population":622,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Mustang Ridge",
+        "lmiPercentage":52.0,
+        "population":944,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Niederwald",
+        "lmiPercentage":60.8,
+        "population":668,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Pflugerville",
+        "lmiPercentage":34.9,
+        "population":65191,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Point Venture",
+        "lmiPercentage":34.6,
+        "population":1260,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Rollingwood",
+        "lmiPercentage":7.5,
+        "population":1467,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Round Mountain",
+        "lmiPercentage":34.5,
+        "population":101,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Round Rock",
+        "lmiPercentage":37.4,
+        "population":119468,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Round Top",
+        "lmiPercentage":18.8,
+        "population":87,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of San Leanna",
+        "lmiPercentage":13.9,
+        "population":522,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of San Marcos",
+        "lmiPercentage":76.9,
+        "population":67553,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Smithville",
+        "lmiPercentage":49.6,
+        "population":3922,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Sunrise Beach Village",
+        "lmiPercentage":22.1,
+        "population":739,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Sunset Valley",
+        "lmiPercentage":18.3,
+        "population":683,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Taylor",
+        "lmiPercentage":64.2,
+        "population":16267,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of The Hills",
+        "lmiPercentage":14.2,
+        "population":2613,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Thrall",
+        "lmiPercentage":63.9,
+        "population":816,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Uhland",
+        "lmiPercentage":71.5,
+        "population":1588,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Volente",
+        "lmiPercentage":31.4,
+        "population":561,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Webberville",
+        "lmiPercentage":68.4,
+        "population":394,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Weir",
+        "lmiPercentage":71.2,
+        "population":699,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of West Lake Hills",
+        "lmiPercentage":7.9,
+        "population":3444,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Wimberley",
+        "lmiPercentage":39.5,
+        "population":2839,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"City of Woodcreek",
+        "lmiPercentage":41.9,
+        "population":1770,
+        "jurisdictionType":"city"
+    },
+    {
+        "name":"Bastrop County",
+        "lmiPercentage":48.0,
+        "population":97216,
+        "jurisdictionType":"county"
+    },
+    {
+        "name":"Blanco County",
+        "lmiPercentage":32.0,
+        "population":11374,
+        "jurisdictionType":"county"
+    },
+    {
+        "name":"Burnet County",
+        "lmiPercentage":38.0,
+        "population":49130,
+        "jurisdictionType":"county"
+    },
+    {
+        "name":"Caldwell County",
+        "lmiPercentage":59.0,
+        "population":45883,
+        "jurisdictionType":"county"
+    },
+    {
+        "name":"Hays County",
+        "lmiPercentage":50.0,
+        "population":241067,
+        "jurisdictionType":"county"
+    },
+    {
+        "name":"Lee County",
+        "lmiPercentage":36.0,
+        "population":17478,
+        "jurisdictionType":"county"
+    },
+    {
+        "name":"Llano County",
+        "lmiPercentage":35.0,
+        "population":21243,
+        "jurisdictionType":"county"
+    },
+    {
+        "name":"Travis County",
+        "lmiPercentage":44.0,
+        "population":1290188,
+        "jurisdictionType":"county"
+    },
+    {
+        "name":"Williamson County",
+        "lmiPercentage":36.0,
+        "population":609017,
+        "jurisdictionType":"county"
+    }
+]
