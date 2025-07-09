@@ -42,7 +42,7 @@ export default function GeoJsonHeatmap() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const res = await fetch("/data/compressed-data.json");
+        const res = await fetch("/data/compressed-crashes.json");
         const json: GeoJsonData = await res.json();
         setGeojson(json);
       } catch (err) {
