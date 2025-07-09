@@ -1,5 +1,3 @@
-// components/QuietZonesMap.tsx
-
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -21,6 +19,21 @@ export default function QuietZonesMap() {
       .catch((e) => console.error("Error loading GeoJSON:", e));
   }, []);
 
+  const renderPopup = (props: Record<string, any>) => {
+    const fields = {
+      "Railroad Name": props.Railroad_Name,
+      "Crossing ID": props.Crossing_ID,
+      "Warning Device Code": props.Warning_Device_Code,
+    };
+
+    const rows = Object.entries(fields)
+      .filter(([_, val]) => val !== null && val !== undefined)
+      .map(([label, value]) => `<div><strong>${label}:</strong> ${value}</div>`)
+      .join("");
+
+    return `<div style="font-size: 0.85rem; line-height: 1.4;">${rows}</div>`;
+  };
+
   return (
     <>
       <MapContainer mapRef={mapRef} />
@@ -30,9 +43,18 @@ export default function QuietZonesMap() {
           data={geojson}
           markerColor="#B22222"
           onSelect={setSelected}
+          renderPopup={renderPopup}
         />
       )}
-      <FeatureDetailCard properties={selected} />
+      <FeatureDetailCard
+        properties={
+          selected
+            ? Object.fromEntries(
+                Object.entries(selected).filter(([key]) => key !== "OBJECTID")
+              )
+            : null
+        }
+      />
     </>
   );
 }

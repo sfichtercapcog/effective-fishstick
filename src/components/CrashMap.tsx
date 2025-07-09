@@ -155,12 +155,20 @@ export default function CrashMap() {
                 features: filteredFeatures,
               } as GeoJSON.FeatureCollection
             }
-            markerColor="#0078FF"
+            markerColor="#B22222"
             selectedFeatureId={selectedFeature?.Crash_ID}
             onSelect={(props) => {
               const { OBJECTID, ...rest } = props;
               setSelectedFeature(rest);
             }}
+            renderPopup={(props) => `
+      <div style="font-size: 0.85rem;">
+        <strong>Crash ID:</strong> ${props.Crash_ID ?? "N/A"}<br/>
+        <strong>Severity:</strong> ${props.crash_severity ?? "Unknown"}<br/>
+        <strong>County:</strong> ${props.county ?? ""}<br/>
+        <strong>Municipality:</strong> ${props.municipality ?? ""}
+      </div>
+    `}
           />
         )}
       </MapContainer>
