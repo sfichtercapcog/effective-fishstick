@@ -86,7 +86,7 @@ export default function MapFilterControls({
       </div>
       <div>
         <label>
-          Municipality:&nbsp;
+          Place:&nbsp;
           <select
             value={selectedMunicipality}
             onChange={(e) => onSelectMunicipality(e.target.value)}
