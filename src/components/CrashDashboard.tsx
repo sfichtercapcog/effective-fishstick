@@ -40,56 +40,64 @@ export default function CrashDashboard() {
   const [mode, setMode] = useState<"absolute" | "percent">("absolute");
   const [years, setYears] = useState<string[]>([]);
 
-  // Load data and years (≥2015)
+  // 1) Load and initialize
   useEffect(() => {
     fetch("/data/crash_data_compact.json")
       .then((r) => r.json())
-      .then((json: CrashRow[]) => {
-        setData(json);
+      .then((rows: CrashRow[]) => {
+        setData(rows);
         setSeverity([1, 2, 3, 4, 5]);
-        const yrs = Array.from(
-          new Set(json.map((d) => new Date(d.dt).getFullYear()))
+        const ys = Array.from(
+          new Set(rows.map((r) => new Date(r.dt).getFullYear()))
         )
           .filter((y) => y >= 2015)
           .sort((a, b) => a - b)
           .map(String);
-        setYears(yrs);
+        setYears(ys);
       });
   }, []);
 
-  // Filtered by year, county, place, severity
+  // 2) Filter = Year≥2015 AND (county ∈ selected OR place ∈ selected OR none selected)
   const filtered = useMemo(() => {
     return data.filter((d) => {
       const y = new Date(d.dt).getFullYear();
       if (y < 2015) return false;
-      if (counties.length && !counties.includes(d.cty)) return false;
-      if (places.length && !places.includes(d.mun)) return false;
       if (metric === "crashes" && !severity.includes(d.sev)) return false;
+
+      // if either filter set, require union membership
+      if (counties.length || places.length) {
+        if (!counties.includes(d.cty) && !places.includes(d.mun)) {
+          return false;
+        }
+      }
       return true;
     });
   }, [data, counties, places, severity, metric]);
 
-  // Group by entity (county/place/region) and year
+  // 3) Group into *all* matching buckets
   const grouped = useMemo(() => {
     const g: Record<string, Record<string, number>> = {};
+
     filtered.forEach((d) => {
       const year = new Date(d.dt).getFullYear().toString();
-      const keys = counties.includes(d.cty)
-        ? [d.cty]
-        : places.includes(d.mun)
-        ? [d.mun]
-        : ["Region"];
-      keys.forEach((key) => {
+      // collect every matching key
+      const buckets: string[] = [];
+      if (counties.includes(d.cty)) buckets.push(d.cty);
+      if (places.includes(d.mun)) buckets.push(d.mun);
+      if (buckets.length === 0) buckets.push("Region");
+
+      buckets.forEach((key) => {
         if (!g[key]) g[key] = {};
         g[key][year] =
           (g[key][year] || 0) +
           (metric === "crashes" ? 1 : metric === "injuries" ? d.inj : d.dth);
       });
     });
+
     return g;
   }, [filtered, counties, places, metric]);
 
-  // Region totals for percent calculations
+  // 4) Region totals for percent mode
   const regionTotals = useMemo(() => {
     const t: Record<string, number> = {};
     years.forEach((y) => (t[y] = 0));
@@ -100,10 +108,10 @@ export default function CrashDashboard() {
     return t;
   }, [filtered, years, metric]);
 
+  // 5) Build chart data
   const labels = years;
   const palette = (i: number) => `hsl(${(i * 70) % 360},65%,55%)`;
 
-  // Build chart datasets
   const datasets = Object.entries(grouped).map(([label, vals], i) => ({
     label,
     data: labels.map((y) => vals[y] || 0),
@@ -115,8 +123,8 @@ export default function CrashDashboard() {
     labels,
     datasets: datasets.map((ds) => ({
       label: ds.label,
-      data: ds.data.map((v, idx) =>
-        regionTotals[labels[idx]] ? (v / regionTotals[labels[idx]]) * 100 : 0
+      data: ds.data.map((v, i) =>
+        regionTotals[labels[i]] ? (v / regionTotals[labels[i]]) * 100 : 0
       ),
       backgroundColor: ds.backgroundColor,
     })),
@@ -144,6 +152,7 @@ export default function CrashDashboard() {
     })),
   };
 
+  // 6) Render
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Crash Trends Dashboard</h2>
@@ -166,41 +175,17 @@ export default function CrashDashboard() {
           data={mode === "absolute" ? totalData : percentData}
           options={{
             responsive: true,
-            plugins: {
-              legend: { position: "bottom" },
-              tooltip: {
-                callbacks: {
-                  label: (ctx) => {
-                    const v = ctx.parsed.y;
-                    return mode === "absolute"
-                      ? `${ctx.dataset.label}: ${v.toLocaleString()}`
-                      : `${ctx.dataset.label}: ${v.toFixed(1)}%`;
-                  },
-                },
-              },
-            },
+            plugins: { legend: { position: "bottom" } },
           }}
         />
       </ChartSection>
 
-      <ChartSection title="Year-over-Year % Change (since 2015)">
+      <ChartSection title="Year-over-Year % Change">
         <Bar
           data={yoyData}
           options={{
             responsive: true,
-            plugins: {
-              legend: { position: "bottom" },
-              tooltip: {
-                callbacks: {
-                  label: (ctx) => {
-                    const v = ctx.parsed.y;
-                    return v == null
-                      ? "No data"
-                      : `${ctx.dataset.label}: ${v.toFixed(1)}%`;
-                  },
-                },
-              },
-            },
+            plugins: { legend: { position: "bottom" } },
           }}
         />
       </ChartSection>
@@ -210,19 +195,7 @@ export default function CrashDashboard() {
           data={sinceFirstData}
           options={{
             responsive: true,
-            plugins: {
-              legend: { position: "bottom" },
-              tooltip: {
-                callbacks: {
-                  label: (ctx) => {
-                    const v = ctx.parsed.y;
-                    return v == null
-                      ? "No data"
-                      : `${ctx.dataset.label}: ${v.toFixed(1)}%`;
-                  },
-                },
-              },
-            },
+            plugins: { legend: { position: "bottom" } },
           }}
         />
       </ChartSection>
