@@ -1,5 +1,3 @@
-// src/pages/crash-analytics.tsx
-
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Layout from "@/components/Layout";
