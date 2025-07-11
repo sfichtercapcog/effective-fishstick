@@ -78,10 +78,10 @@ export default function MapFilterControls({
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Map Filters</h2>
+      <h3 className={styles.title}>Map Filters</h3>
 
       {/* Map Layers */}
-      <h3 className={styles.sectionTitle}>Map Layers</h3>
+      <h4 className={styles.sectionTitle}>Map Layers</h4>
       <div className={styles.controls}>
         <div className={styles.select}>
           <label>Layers</label>
@@ -103,7 +103,7 @@ export default function MapFilterControls({
       </div>
 
       {/* Location Filters */}
-      <h3 className={styles.sectionTitle}>Location Filters</h3>
+      <h4 className={styles.sectionTitle}>Location Filters</h4>
       <div className={styles.controls}>
         <div className={styles.select}>
           <label>County</label>
@@ -148,7 +148,7 @@ export default function MapFilterControls({
       </div>
 
       {/* Severity */}
-      <h3 className={styles.sectionTitle}>Crash Severity</h3>
+      <h4 className={styles.sectionTitle}>Crash Severity</h4>
       <div className={styles.controls}>
         <div className={styles.select}>
           <label>Severity</label>
