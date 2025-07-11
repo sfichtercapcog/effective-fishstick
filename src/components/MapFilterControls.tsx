@@ -21,6 +21,8 @@ type Props = {
   selectedCrashSeverities: string[];
   onSelectCrashSeverities: (severities: string[]) => void;
   severityOptions: string[];
+  selectedLayers: string[]; // New prop
+  onSelectLayers: (layers: string[]) => void; // New prop
 };
 
 export default function MapFilterControls({
@@ -38,6 +40,8 @@ export default function MapFilterControls({
   selectedCrashSeverities,
   onSelectCrashSeverities,
   severityOptions,
+  selectedLayers,
+  onSelectLayers,
 }: Props) {
   // Define severity order ranking
   const severityRank: { [key: string]: number } = {
@@ -79,6 +83,10 @@ export default function MapFilterControls({
     value: s,
     label: s,
   }));
+  const layerSelectOptions: Option[] = [
+    { value: "heatmap", label: "Heatmap" },
+    { value: "points", label: "Points" },
+  ];
 
   // Handle select changes
   const handleCountyChange = (selectedOption: Option | null) => {
@@ -91,6 +99,10 @@ export default function MapFilterControls({
     const selectedValues = selectedOptions.map((opt) => opt.value);
     onSelectCrashSeverities(selectedValues);
   };
+  const handleLayerChange = (selectedOptions: MultiValue<Option>) => {
+    const selectedValues = selectedOptions.map((opt) => opt.value);
+    onSelectLayers(selectedValues);
+  };
 
   // Selected values for react-select
   const selectedCountyOption =
@@ -102,32 +114,33 @@ export default function MapFilterControls({
   const selectedSeverityOptions = severitySelectOptions.filter((opt) =>
     selectedCrashSeverities.includes(opt.value)
   );
+  const selectedLayerOptions = layerSelectOptions.filter((opt) =>
+    selectedLayers.includes(opt.value)
+  );
 
   return (
     <div className={styles.controls}>
-      <div className={styles.toggleGroup}>
+      <div className={styles.selector}>
         <label>
           <strong>Map Layers:</strong>
         </label>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              checked={showHeatmap}
-              onChange={onToggleHeatmap}
-            />{" "}
-            Heatmap
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={showPointLayer}
-              onChange={onTogglePointLayer}
-            />{" "}
-            Points
-          </label>
-        </div>
-        <small>Check boxes to toggle heatmap or crash points on the map.</small>
+        <Select
+          isMulti
+          options={layerSelectOptions}
+          value={selectedLayerOptions}
+          onChange={handleLayerChange}
+          placeholder="Select layers..."
+          styles={{
+            menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+          }}
+          menuPortalTarget={
+            typeof window !== "undefined" ? document.body : undefined
+          }
+        />
+        <small>
+          Choose one or more layers to display on the map (e.g., Heatmap,
+          Points).
+        </small>
       </div>
       <div className={styles.selector}>
         <label>

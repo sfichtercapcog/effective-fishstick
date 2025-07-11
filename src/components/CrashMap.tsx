@@ -33,6 +33,7 @@ export default function CrashMap() {
   const [selectedCrashSeverities, setSelectedCrashSeverities] = useState<
     string[]
   >([]);
+  const [selectedLayers, setSelectedLayers] = useState<string[]>([]);
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [showPointLayer, setShowPointLayer] = useState(false);
   const [selectedFeature, setSelectedFeature] = useState<Record<
@@ -104,6 +105,12 @@ export default function CrashMap() {
     );
   }, [severityOptions]);
 
+  // Sync layer states with selectedLayers
+  useEffect(() => {
+    setShowHeatmap(selectedLayers.includes("heatmap"));
+    setShowPointLayer(selectedLayers.includes("points"));
+  }, [selectedLayers]);
+
   const filteredFeatures = useMemo(() => {
     if (!geojson) return [];
     return geojson.features.filter((f) => {
@@ -156,6 +163,10 @@ export default function CrashMap() {
     setSelectedCrashSeverities(severities);
   };
 
+  const handleSelectLayers = (layers: string[]) => {
+    setSelectedLayers(layers);
+  };
+
   const renderPopup = (props: Record<string, any>) => {
     const rows = [
       ["Crash ID", props.Crash_ID],
@@ -179,14 +190,16 @@ export default function CrashMap() {
         selectedMunicipality={selectedMunicipality}
         showHeatmap={showHeatmap}
         showPointLayer={showPointLayer}
-        onToggleHeatmap={() => setShowHeatmap(!showHeatmap)}
-        onTogglePointLayer={() => setShowPointLayer(!showPointLayer)}
+        onToggleHeatmap={() => {}} // No-op since layers are managed by selectedLayers
+        onTogglePointLayer={() => {}} // No-op since layers are managed by selectedLayers
         onSelectCounty={handleSelectCounty}
         onSelectMunicipality={setSelectedMunicipality}
         onZoomToExtent={handleZoomToExtent}
         selectedCrashSeverities={selectedCrashSeverities}
         onSelectCrashSeverities={handleSelectCrashSeverities}
         severityOptions={severityOptions}
+        selectedLayers={selectedLayers}
+        onSelectLayers={handleSelectLayers}
       />
 
       <MapContainer center={[30.2672, -97.7431]} zoom={9} mapRef={mapRef}>
