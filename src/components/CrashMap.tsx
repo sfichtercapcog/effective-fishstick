@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState, useRef } from "react";
 import L from "leaflet";
+import { FeatureCollection } from "geojson";
 import MapContainer from "./MapContainer";
 import HeatmapLayer from "./HeatmapLayer";
 import JsonLayer from "./JsonLayer";
@@ -32,10 +33,8 @@ export default function CrashMap() {
   const [selectedMunicipality, setSelectedMunicipality] = useState("");
   const [selectedCrashSeverities, setSelectedCrashSeverities] = useState<
     string[]
-  >([]);
+  >(["Fatal", "Serious Injury"]);
   const [selectedLayers, setSelectedLayers] = useState<string[]>([]);
-  const [showHeatmap, setShowHeatmap] = useState(false);
-  const [showPointLayer, setShowPointLayer] = useState(false);
   const [selectedFeature, setSelectedFeature] = useState<Record<
     string,
     any
@@ -66,64 +65,44 @@ export default function CrashMap() {
   const municipalityOptions = useMemo(() => {
     if (!geojson) return [];
     const all = Array.from(
-      new Set(
-        geojson.features
-          .filter(
-            (f) => !selectedCounty || f.properties.county === selectedCounty
-          )
-          .map((f) => f.properties.municipality)
-      )
+      new Set(geojson.features.map((f) => f.properties.municipality))
     );
-
     const named = all
       .filter((m) => !m.toLowerCase().startsWith("unincorporated"))
       .sort();
     const unincorporated = all
       .filter((m) => m.toLowerCase().startsWith("unincorporated"))
       .sort();
-
     return [...named, ...unincorporated];
-  }, [geojson, selectedCounty]);
-
-  const severityOptions = useMemo(() => {
-    if (!geojson) return ["All"];
-    const severities = Array.from(
-      new Set(geojson.features.map((f) => f.properties.crash_severity))
-    )
-      .filter((s): s is string => s !== undefined && s !== null)
-      .sort();
-    return ["All", ...severities];
   }, [geojson]);
 
-  useEffect(() => {
-    // Set default selectedCrashSeverities when severityOptions is available
-    const defaultSeverities = ["Fatal", "Serious Injury"].filter((s) =>
-      severityOptions.includes(s)
-    );
-    setSelectedCrashSeverities((prev) =>
-      prev.length === 0 ? defaultSeverities : prev
-    );
-  }, [severityOptions]);
+  const severityOptions = useMemo(() => {
+    if (!geojson) return [];
+    const areaFiltered = geojson.features.filter((f) => {
+      return (
+        (!selectedCounty || f.properties.county === selectedCounty) &&
+        (!selectedMunicipality ||
+          f.properties.municipality === selectedMunicipality)
+      );
+    });
+    const severities = Array.from(
+      new Set(areaFiltered.map((f) => f.properties.crash_severity))
+    ).filter((s): s is string => !!s);
+    return severities;
+  }, [geojson, selectedCounty, selectedMunicipality]);
 
-  // Sync layer states with selectedLayers
-  useEffect(() => {
-    setShowHeatmap(selectedLayers.includes("heatmap"));
-    setShowPointLayer(selectedLayers.includes("points"));
-  }, [selectedLayers]);
-
-  const filteredFeatures = useMemo(() => {
+  const filteredFeatures: CrashFeature[] = useMemo(() => {
     if (!geojson) return [];
     return geojson.features.filter((f) => {
-      const countyMatch = selectedCounty
-        ? f.properties.county === selectedCounty
-        : true;
-      const muniMatch = selectedMunicipality
-        ? f.properties.municipality === selectedMunicipality
-        : true;
-      const severityMatch =
+      const matchesCounty =
+        !selectedCounty || f.properties.county === selectedCounty;
+      const matchesMuni =
+        !selectedMunicipality ||
+        f.properties.municipality === selectedMunicipality;
+      const matchesSeverity =
         selectedCrashSeverities.length === 0 ||
         selectedCrashSeverities.includes(f.properties.crash_severity || "");
-      return countyMatch && muniMatch && severityMatch;
+      return matchesCounty && matchesMuni && matchesSeverity;
     });
   }, [geojson, selectedCounty, selectedMunicipality, selectedCrashSeverities]);
 
@@ -154,19 +133,6 @@ export default function CrashMap() {
     }
   };
 
-  const handleSelectCounty = (county: string) => {
-    setSelectedCounty(county);
-    setSelectedMunicipality("");
-  };
-
-  const handleSelectCrashSeverities = (severities: string[]) => {
-    setSelectedCrashSeverities(severities);
-  };
-
-  const handleSelectLayers = (layers: string[]) => {
-    setSelectedLayers(layers);
-  };
-
   const renderPopup = (props: Record<string, any>) => {
     const rows = [
       ["Crash ID", props.Crash_ID],
@@ -181,6 +147,11 @@ export default function CrashMap() {
     return `<div style="font-size: 0.85rem; line-height: 1.4;">${rows}</div>`;
   };
 
+  const filteredGeoJson: FeatureCollection = {
+    type: "FeatureCollection",
+    features: filteredFeatures,
+  };
+
   return (
     <div>
       <MapFilterControls
@@ -188,34 +159,25 @@ export default function CrashMap() {
         municipalityOptions={municipalityOptions}
         selectedCounty={selectedCounty}
         selectedMunicipality={selectedMunicipality}
-        showHeatmap={showHeatmap}
-        showPointLayer={showPointLayer}
-        onToggleHeatmap={() => {}} // No-op since layers are managed by selectedLayers
-        onTogglePointLayer={() => {}} // No-op since layers are managed by selectedLayers
-        onSelectCounty={handleSelectCounty}
+        onSelectCounty={setSelectedCounty}
         onSelectMunicipality={setSelectedMunicipality}
         onZoomToExtent={handleZoomToExtent}
         selectedCrashSeverities={selectedCrashSeverities}
-        onSelectCrashSeverities={handleSelectCrashSeverities}
+        onSelectCrashSeverities={setSelectedCrashSeverities}
         severityOptions={severityOptions}
         selectedLayers={selectedLayers}
-        onSelectLayers={handleSelectLayers}
+        onSelectLayers={setSelectedLayers}
       />
 
       <MapContainer center={[30.2672, -97.7431]} zoom={9} mapRef={mapRef}>
-        {showHeatmap && heatmapPoints.length > 0 && (
+        {selectedLayers.includes("heatmap") && heatmapPoints.length > 0 && (
           <HeatmapLayer points={heatmapPoints} />
         )}
 
-        {showPointLayer && filteredFeatures.length > 0 && (
+        {selectedLayers.includes("points") && filteredFeatures.length > 0 && (
           <JsonLayer
             map={mapRef.current}
-            data={
-              {
-                type: "FeatureCollection",
-                features: filteredFeatures,
-              } as GeoJSON.FeatureCollection
-            }
+            data={filteredGeoJson} // ✅ fixed typing
             selectedFeature={selectedFeature}
             onSelect={setSelectedFeature}
             renderPopup={renderPopup}

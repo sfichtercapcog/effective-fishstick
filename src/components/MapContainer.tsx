@@ -118,7 +118,7 @@ export default function MapContainer({
       <div
         ref={containerRef}
         style={{
-          height: "600px",
+          height: "800px",
           width: "100%",
           borderRadius: "0.5rem",
           zIndex: 0,
