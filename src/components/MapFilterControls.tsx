@@ -1,6 +1,10 @@
 "use client";
 
 import React from "react";
+import Select, { MultiValue } from "react-select";
+import styles from "../styles/CrashDashboard.module.css";
+
+type Option = { value: string; label: string };
 
 type Props = {
   countyOptions: string[];
@@ -14,6 +18,9 @@ type Props = {
   onSelectCounty: (county: string) => void;
   onSelectMunicipality: (muni: string) => void;
   onZoomToExtent: () => void;
+  selectedCrashSeverities: string[];
+  onSelectCrashSeverities: (severities: string[]) => void;
+  severityOptions: string[];
 };
 
 export default function MapFilterControls({
@@ -28,7 +35,26 @@ export default function MapFilterControls({
   onSelectCounty,
   onSelectMunicipality,
   onZoomToExtent,
+  selectedCrashSeverities,
+  onSelectCrashSeverities,
+  severityOptions,
 }: Props) {
+  // Define severity order ranking
+  const severityRank: { [key: string]: number } = {
+    Fatal: 6,
+    "Serious Injury": 5,
+    "Minor Injury": 4,
+    "Possible Injury": 3,
+    "No Injury": 2,
+    Unknown: 1,
+  };
+
+  // Sort severityOptions by rank
+  const sortedSeverityOptions = [...severityOptions].sort((a, b) => {
+    return (severityRank[b] || 0) - (severityRank[a] || 0);
+  });
+
+  // Sort municipality options
   const sortedMunicipalityOptions = [
     ...municipalityOptions
       .filter((m) => !m.toLowerCase().startsWith("unincorporated"))
@@ -38,73 +64,141 @@ export default function MapFilterControls({
       .sort(),
   ];
 
+  // Transform options for react-select
+  const countySelectOptions: Option[] = countyOptions.map((c) => ({
+    value: c,
+    label: c,
+  }));
+  const municipalitySelectOptions: Option[] = sortedMunicipalityOptions.map(
+    (m) => ({
+      value: m,
+      label: m,
+    })
+  );
+  const severitySelectOptions: Option[] = sortedSeverityOptions.map((s) => ({
+    value: s,
+    label: s,
+  }));
+
+  // Handle select changes
+  const handleCountyChange = (selectedOption: Option | null) => {
+    onSelectCounty(selectedOption?.value || "");
+  };
+  const handleMunicipalityChange = (selectedOption: Option | null) => {
+    onSelectMunicipality(selectedOption?.value || "");
+  };
+  const handleSeverityChange = (selectedOptions: MultiValue<Option>) => {
+    const selectedValues = selectedOptions.map((opt) => opt.value);
+    onSelectCrashSeverities(selectedValues);
+  };
+
+  // Selected values for react-select
+  const selectedCountyOption =
+    countySelectOptions.find((opt) => opt.value === selectedCounty) || null;
+  const selectedMunicipalityOption =
+    municipalitySelectOptions.find(
+      (opt) => opt.value === selectedMunicipality
+    ) || null;
+  const selectedSeverityOptions = severitySelectOptions.filter((opt) =>
+    selectedCrashSeverities.includes(opt.value)
+  );
+
   return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: "1rem",
-        marginBottom: "1rem",
-      }}
-    >
-      <div>
+    <div className={styles.controls}>
+      <div className={styles.toggleGroup}>
         <label>
-          <input
-            type="checkbox"
-            checked={showHeatmap}
-            onChange={onToggleHeatmap}
-          />
-          Show Heatmap
+          <strong>Map Layers:</strong>
         </label>
+        <div>
+          <label>
+            <input
+              type="checkbox"
+              checked={showHeatmap}
+              onChange={onToggleHeatmap}
+            />{" "}
+            Heatmap
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={showPointLayer}
+              onChange={onTogglePointLayer}
+            />{" "}
+            Points
+          </label>
+        </div>
+        <small>Check boxes to toggle heatmap or crash points on the map.</small>
       </div>
-      <div>
+      <div className={styles.selector}>
         <label>
-          <input
-            type="checkbox"
-            checked={showPointLayer}
-            onChange={onTogglePointLayer}
-          />
-          Show Points
+          <strong>County:</strong>
         </label>
+        <Select
+          options={countySelectOptions}
+          value={selectedCountyOption}
+          onChange={handleCountyChange}
+          placeholder="Select a county..."
+          styles={{
+            menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+          }}
+          menuPortalTarget={
+            typeof window !== "undefined" ? document.body : undefined
+          }
+        />
+        <small>Filter crashes by selecting a specific county.</small>
       </div>
-      <div>
+      <div className={styles.selector}>
         <label>
-          County:&nbsp;
-          <select
-            value={selectedCounty}
-            onChange={(e) => onSelectCounty(e.target.value)}
-            style={{ padding: "0.25rem", minWidth: "150px" }}
-          >
-            <option value="">All</option>
-            {countyOptions.sort().map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
+          <strong>Place:</strong>
         </label>
+        <Select
+          options={municipalitySelectOptions}
+          value={selectedMunicipalityOption}
+          onChange={handleMunicipalityChange}
+          placeholder="Select a place..."
+          styles={{
+            menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+          }}
+          menuPortalTarget={
+            typeof window !== "undefined" ? document.body : undefined
+          }
+        />
+        <small>
+          Narrow down crashes to a specific city or unincorporated area.
+        </small>
       </div>
-      <div>
+      <div className={styles.selector}>
         <label>
-          Place:&nbsp;
-          <select
-            value={selectedMunicipality}
-            onChange={(e) => onSelectMunicipality(e.target.value)}
-            style={{ padding: "0.25rem", minWidth: "200px" }}
-          >
-            <option value="">All</option>
-            {sortedMunicipalityOptions.map((m) => (
-              <option key={m} value={m}>
-                {m}
-              </option>
-            ))}
-          </select>
+          <strong>Severity:</strong>
         </label>
+        <Select
+          isMulti
+          options={severitySelectOptions}
+          value={selectedSeverityOptions}
+          onChange={handleSeverityChange}
+          placeholder="Select severities..."
+          styles={{
+            menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+          }}
+          menuPortalTarget={
+            typeof window !== "undefined" ? document.body : undefined
+          }
+        />
+        <small>
+          Choose one or more severity levels to filter crash data (e.g., Fatal,
+          Injury).
+        </small>
       </div>
-      <div>
-        <button onClick={onZoomToExtent} style={{ padding: "0.25rem 0.75rem" }}>
-          Zoom to Extent
-        </button>
+      <div className={styles.toggleGroup}>
+        <label>
+          <strong>Actions:</strong>
+        </label>
+        <div>
+          <button className="btn" onClick={onZoomToExtent}>
+            Zoom to Extent
+          </button>
+        </div>
+        <small>Zoom to show all filtered crashes.</small>
       </div>
     </div>
   );
