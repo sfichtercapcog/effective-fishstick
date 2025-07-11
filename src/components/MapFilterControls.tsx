@@ -1,20 +1,30 @@
 "use client";
 
-import React from "react";
-import Select, { MultiValue } from "react-select";
+import React, { useMemo } from "react";
+import Select from "react-select";
 import styles from "../styles/MapFilterControls.module.css";
 
 type Option = { value: string; label: string };
 
+type CrashFeature = GeoJSON.Feature<
+  GeoJSON.Point,
+  {
+    county: string;
+    municipality: string;
+    crash_severity?: string;
+  }
+>;
+
 type Props = {
   countyOptions: string[];
-  municipalityOptions: string[];
+  allMunicipalityOptions: string[];
+  crashFeatures: CrashFeature[];
   selectedCounty: string;
   selectedMunicipality: string;
-  selectedCrashSeverities: string[];
   onSelectCounty: (county: string) => void;
   onSelectMunicipality: (muni: string) => void;
   onZoomToExtent: () => void;
+  selectedCrashSeverities: string[];
   onSelectCrashSeverities: (severities: string[]) => void;
   severityOptions: string[];
   selectedLayers: string[];
@@ -23,7 +33,8 @@ type Props = {
 
 export default function MapFilterControls({
   countyOptions,
-  municipalityOptions,
+  allMunicipalityOptions,
+  crashFeatures,
   selectedCounty,
   selectedMunicipality,
   onSelectCounty,
@@ -48,29 +59,49 @@ export default function MapFilterControls({
     (a, b) => (severityRank[b] || 0) - (severityRank[a] || 0)
   );
 
-  const sortedMunicipalityOptions = [
-    ...municipalityOptions
-      .filter((m) => !m.toLowerCase().startsWith("unincorporated"))
-      .sort(),
-    ...municipalityOptions
-      .filter((m) => m.toLowerCase().startsWith("unincorporated"))
-      .sort(),
-  ];
-
   const countySelectOptions: Option[] = countyOptions.map((c) => ({
     value: c,
     label: c,
   }));
+
+  // 💡 New: String-matching logic to get municipalities from selected county
+  const filteredMunicipalities = useMemo(() => {
+    if (!selectedCounty) return allMunicipalityOptions;
+
+    return Array.from(
+      new Set(
+        crashFeatures
+          .filter(
+            (f) =>
+              f.properties.county.toLowerCase().trim() ===
+              selectedCounty.toLowerCase().trim()
+          )
+          .map((f) => f.properties.municipality)
+      )
+    );
+  }, [crashFeatures, selectedCounty, allMunicipalityOptions]);
+
+  const sortedMunicipalityOptions = [
+    ...filteredMunicipalities
+      .filter((m) => !m.toLowerCase().startsWith("unincorporated"))
+      .sort(),
+    ...filteredMunicipalities
+      .filter((m) => m.toLowerCase().startsWith("unincorporated"))
+      .sort(),
+  ];
+
   const municipalitySelectOptions: Option[] = sortedMunicipalityOptions.map(
     (m) => ({
       value: m,
       label: m,
     })
   );
+
   const severitySelectOptions: Option[] = sortedSeverityOptions.map((s) => ({
     value: s,
     label: s,
   }));
+
   const layerSelectOptions: Option[] = [
     { value: "heatmap", label: "Heatmap" },
     { value: "points", label: "Points" },
@@ -98,7 +129,7 @@ export default function MapFilterControls({
               typeof window !== "undefined" ? document.body : undefined
             }
           />
-          <small>Choose which data layers to display on the map.</small>
+          <small>Toggle heatmap and/or individual crash points.</small>
         </div>
       </div>
 
@@ -117,13 +148,20 @@ export default function MapFilterControls({
                 ? { value: selectedCounty, label: selectedCounty }
                 : { value: "", label: "Entire Region" }
             }
-            onChange={(opt) => onSelectCounty(opt?.value || "")}
+            onChange={(opt) => {
+              onSelectCounty(opt?.value || "");
+              onSelectMunicipality(""); // reset muni if county changes
+            }}
             placeholder="Select a county..."
             styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
             menuPortalTarget={
               typeof window !== "undefined" ? document.body : undefined
             }
           />
+          <small>
+            Filter by county. You can also select a place inside that county to
+            narrow further.
+          </small>
         </div>
         <div className={styles.select}>
           <label>Place</label>
@@ -144,6 +182,10 @@ export default function MapFilterControls({
               typeof window !== "undefined" ? document.body : undefined
             }
           />
+          <small>
+            Filter by a municipality. If a county is also selected, only places
+            with crashes in that county will be listed.
+          </small>
         </div>
       </div>
 
@@ -167,12 +209,15 @@ export default function MapFilterControls({
               typeof window !== "undefined" ? document.body : undefined
             }
           />
-          <small>Select one or more crash severities to filter.</small>
+          <small>
+            Start with most severe crashes. You can select more levels to
+            broaden the results.
+          </small>
         </div>
       </div>
 
       {/* Actions */}
-      <h3 className={styles.sectionTitle}>Actions</h3>
+      <h4 className={styles.sectionTitle}>Actions</h4>
       <div className={styles.controls}>
         <div className={styles.actions}>
           <button className={styles.btn} onClick={onZoomToExtent}>

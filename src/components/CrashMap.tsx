@@ -58,50 +58,78 @@ export default function CrashMap() {
   const countyOptions = useMemo(() => {
     if (!geojson) return [];
     return Array.from(
-      new Set(geojson.features.map((f) => f.properties.county))
-    ).sort();
+      new Set(geojson.features.map((f) => f.properties.county?.trim()))
+    )
+      .filter(Boolean)
+      .sort();
   }, [geojson]);
 
-  const municipalityOptions = useMemo(() => {
+  const filteredMunicipalityOptions = useMemo(() => {
     if (!geojson) return [];
-    const all = Array.from(
-      new Set(geojson.features.map((f) => f.properties.municipality))
-    );
-    const named = all
+
+    const filtered = geojson.features.filter((f) => {
+      if (!selectedCounty) return true;
+      return (
+        f.properties.county?.trim().toLowerCase() ===
+        selectedCounty.trim().toLowerCase()
+      );
+    });
+
+    const places = Array.from(
+      new Set(filtered.map((f) => f.properties.municipality?.trim()))
+    ).filter(Boolean) as string[];
+
+    const named = places
       .filter((m) => !m.toLowerCase().startsWith("unincorporated"))
       .sort();
-    const unincorporated = all
+
+    const unincorporated = places
       .filter((m) => m.toLowerCase().startsWith("unincorporated"))
       .sort();
+
     return [...named, ...unincorporated];
-  }, [geojson]);
+  }, [geojson, selectedCounty]);
 
   const severityOptions = useMemo(() => {
     if (!geojson) return [];
-    const areaFiltered = geojson.features.filter((f) => {
-      return (
-        (!selectedCounty || f.properties.county === selectedCounty) &&
-        (!selectedMunicipality ||
-          f.properties.municipality === selectedMunicipality)
-      );
+
+    const filtered = geojson.features.filter((f) => {
+      const countyMatch =
+        !selectedCounty ||
+        f.properties.county?.trim().toLowerCase() ===
+          selectedCounty.trim().toLowerCase();
+      const muniMatch =
+        !selectedMunicipality ||
+        f.properties.municipality?.trim().toLowerCase() ===
+          selectedMunicipality.trim().toLowerCase();
+      return countyMatch && muniMatch;
     });
-    const severities = Array.from(
-      new Set(areaFiltered.map((f) => f.properties.crash_severity))
-    ).filter((s): s is string => !!s);
-    return severities;
+
+    return Array.from(
+      new Set(
+        filtered
+          .map((f) => f.properties.crash_severity)
+          .filter((s): s is string => typeof s === "string" && !!s)
+      )
+    ).sort();
   }, [geojson, selectedCounty, selectedMunicipality]);
 
   const filteredFeatures: CrashFeature[] = useMemo(() => {
     if (!geojson) return [];
+
     return geojson.features.filter((f) => {
       const matchesCounty =
-        !selectedCounty || f.properties.county === selectedCounty;
+        !selectedCounty ||
+        f.properties.county?.trim().toLowerCase() ===
+          selectedCounty.trim().toLowerCase();
       const matchesMuni =
         !selectedMunicipality ||
-        f.properties.municipality === selectedMunicipality;
+        f.properties.municipality?.trim().toLowerCase() ===
+          selectedMunicipality.trim().toLowerCase();
       const matchesSeverity =
         selectedCrashSeverities.length === 0 ||
         selectedCrashSeverities.includes(f.properties.crash_severity || "");
+
       return matchesCounty && matchesMuni && matchesSeverity;
     });
   }, [geojson, selectedCounty, selectedMunicipality, selectedCrashSeverities]);
@@ -154,20 +182,23 @@ export default function CrashMap() {
 
   return (
     <div>
-      <MapFilterControls
-        countyOptions={countyOptions}
-        municipalityOptions={municipalityOptions}
-        selectedCounty={selectedCounty}
-        selectedMunicipality={selectedMunicipality}
-        onSelectCounty={setSelectedCounty}
-        onSelectMunicipality={setSelectedMunicipality}
-        onZoomToExtent={handleZoomToExtent}
-        selectedCrashSeverities={selectedCrashSeverities}
-        onSelectCrashSeverities={setSelectedCrashSeverities}
-        severityOptions={severityOptions}
-        selectedLayers={selectedLayers}
-        onSelectLayers={setSelectedLayers}
-      />
+      {geojson && (
+        <MapFilterControls
+          countyOptions={countyOptions}
+          allMunicipalityOptions={filteredMunicipalityOptions}
+          crashFeatures={geojson.features}
+          selectedCounty={selectedCounty}
+          selectedMunicipality={selectedMunicipality}
+          onSelectCounty={setSelectedCounty}
+          onSelectMunicipality={setSelectedMunicipality}
+          onZoomToExtent={handleZoomToExtent}
+          selectedCrashSeverities={selectedCrashSeverities}
+          onSelectCrashSeverities={setSelectedCrashSeverities}
+          severityOptions={severityOptions}
+          selectedLayers={selectedLayers}
+          onSelectLayers={setSelectedLayers}
+        />
+      )}
 
       <MapContainer center={[30.2672, -97.7431]} zoom={9} mapRef={mapRef}>
         {selectedLayers.includes("heatmap") && heatmapPoints.length > 0 && (
@@ -177,7 +208,7 @@ export default function CrashMap() {
         {selectedLayers.includes("points") && filteredFeatures.length > 0 && (
           <JsonLayer
             map={mapRef.current}
-            data={filteredGeoJson} // ✅ fixed typing
+            data={filteredGeoJson}
             selectedFeature={selectedFeature}
             onSelect={setSelectedFeature}
             renderPopup={renderPopup}
