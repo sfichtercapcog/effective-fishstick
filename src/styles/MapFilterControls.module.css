@@ -1,97 +1,77 @@
-/* MapFilterControls.module.css */
-
 .container {
-    padding: 20px;
-    font-family: sans-serif;
-    background-color: #f9f9f9;
-    border-bottom: 1px solid #ddd;
+    padding: 24px;
+    background-color: #fafafa;
     border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    margin-bottom: 1.5rem;
 }
 
 .title {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
+    font-size: 1.6rem;
     font-weight: 600;
+    margin-bottom: 1.2rem;
+    color: #003366;
+}
+
+.sectionTitle {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #222;
 }
 
 .controls {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
-    margin-bottom: 20px;
-    align-items: flex-start;
+    margin-bottom: 1.5rem;
 }
 
 .select {
     flex: 1;
-    min-width: 240px;
+    min-width: 220px;
     display: flex;
     flex-direction: column;
 }
 
 .select label {
-    font-weight: bold;
+    font-size: 0.95rem;
+    font-weight: 500;
     margin-bottom: 4px;
 }
 
 .select small {
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     color: #666;
     margin-top: 4px;
 }
 
-.sectionTitle {
-    width: 100%;
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin: 1rem 0 0.25rem;
-    color: #333;
-}
-
-.chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 6px;
-}
-
-.chip {
-    padding: 6px 12px;
-    border: 1px solid #aaa;
-    border-radius: 999px;
-    background: #f0f0f0;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.chip:hover {
-    background: #ddd;
-}
-
-.activeChip {
-    background: #333;
-    color: #fff;
-    border-color: #111;
-}
-
 .actions {
-    display: flex;
-    align-items: flex-end;
-    min-width: 200px;
+    margin-top: 8px;
 }
 
 .btn {
-    background: #007acc;
+    background-color: #007bff;
     color: white;
-    padding: 0.5rem 1.2rem;
+    padding: 8px 16px;
+    border-radius: 6px;
     border: none;
-    border-radius: 999px;
+    font-weight: 500;
     cursor: pointer;
-    font-size: 0.9rem;
-    transition: background 0.2s;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .btn:hover {
-    background: #005fa3;
+    background-color: #0056b3;
+}
+
+@media (max-width: 640px) {
+    .controls {
+        flex-direction: column;
+    }
+
+    .select {
+        width: 100%;
+    }
 }

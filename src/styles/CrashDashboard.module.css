@@ -1,51 +1,77 @@
 .container {
-  padding: 20px;
-  font-family: sans-serif;
+  padding: 24px;
+  background-color: #fafafa;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.5rem;
 }
 
 .title {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  color: #003366;
+}
+
+.sectionTitle {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #222;
 }
 
 .controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 20px;
-  align-items: center;
+  gap: 16px;
+  margin-bottom: 1.5rem;
 }
 
 .select {
-  min-width: 200px;
   flex: 1;
-}
-
-.chips {
+  min-width: 220px;
   display: flex;
-  gap: 6px;
+  flex-direction: column;
 }
 
-.chip {
-  padding: 6px 12px;
-  border: 1px solid #aaa;
-  border-radius: 999px;
-  background: #f0f0f0;
-  font-size: 0.9rem;
+.select label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.select small {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+.actions {
+  margin-top: 8px;
+}
+
+.btn {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 500;
   cursor: pointer;
-  transition: background .2s;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.chip:hover {
-  background: #ddd;
+.btn:hover {
+  background-color: #0056b3;
 }
 
-.activeChip {
-  background: #333;
-  color: #fff;
-  border-color: #111;
-}
+@media (max-width: 640px) {
+  .controls {
+    flex-direction: column;
+  }
 
-.chartSection {
-  margin-top: 20px;
+  .select {
+    width: 100%;
+  }
 }

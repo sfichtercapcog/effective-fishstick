@@ -1,19 +1,19 @@
 "use client";
 
 import React, { useMemo } from "react";
-import Select from "react-select";
+import Select, { MultiValue } from "react-select";
 import styles from "../styles/MapFilterControls.module.css";
 
-type Option = { value: string; label: string };
-
-type CrashFeature = GeoJSON.Feature<
-  GeoJSON.Point,
-  {
+// Define the type of a crash feature
+interface CrashFeature {
+  properties: {
     county: string;
     municipality: string;
     crash_severity?: string;
-  }
->;
+  } | null;
+}
+
+type Option = { value: string; label: string };
 
 type Props = {
   countyOptions: string[];
@@ -21,10 +21,10 @@ type Props = {
   crashFeatures: CrashFeature[];
   selectedCounty: string;
   selectedMunicipality: string;
+  selectedCrashSeverities: string[];
   onSelectCounty: (county: string) => void;
   onSelectMunicipality: (muni: string) => void;
   onZoomToExtent: () => void;
-  selectedCrashSeverities: string[];
   onSelectCrashSeverities: (severities: string[]) => void;
   severityOptions: string[];
   selectedLayers: string[];
@@ -64,38 +64,29 @@ export default function MapFilterControls({
     label: c,
   }));
 
-  // 💡 New: String-matching logic to get municipalities from selected county
-  const filteredMunicipalities = useMemo(() => {
+  const placesInCounty = useMemo(() => {
     if (!selectedCounty) return allMunicipalityOptions;
+    const filtered = crashFeatures
+      .filter((f) => f.properties?.county === selectedCounty)
+      .map((f) => f.properties!.municipality);
 
-    return Array.from(
-      new Set(
-        crashFeatures
-          .filter(
-            (f) =>
-              f.properties.county.toLowerCase().trim() ===
-              selectedCounty.toLowerCase().trim()
-          )
-          .map((f) => f.properties.municipality)
-      )
-    );
+    const unique = Array.from(new Set(filtered));
+
+    const named = unique
+      .filter((m) => !m.toLowerCase().startsWith("unincorporated"))
+      .sort();
+
+    const unincorporated = unique
+      .filter((m) => m.toLowerCase().startsWith("unincorporated"))
+      .sort();
+
+    return [...named, ...unincorporated];
   }, [crashFeatures, selectedCounty, allMunicipalityOptions]);
 
-  const sortedMunicipalityOptions = [
-    ...filteredMunicipalities
-      .filter((m) => !m.toLowerCase().startsWith("unincorporated"))
-      .sort(),
-    ...filteredMunicipalities
-      .filter((m) => m.toLowerCase().startsWith("unincorporated"))
-      .sort(),
-  ];
-
-  const municipalitySelectOptions: Option[] = sortedMunicipalityOptions.map(
-    (m) => ({
-      value: m,
-      label: m,
-    })
-  );
+  const municipalitySelectOptions: Option[] = placesInCounty.map((m) => ({
+    value: m,
+    label: m,
+  }));
 
   const severitySelectOptions: Option[] = sortedSeverityOptions.map((s) => ({
     value: s,
@@ -109,10 +100,10 @@ export default function MapFilterControls({
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.title}>Map Filters</h3>
+      <h2 className={styles.title}>Map Filters</h2>
 
       {/* Map Layers */}
-      <h4 className={styles.sectionTitle}>Map Layers</h4>
+      <h3 className={styles.sectionTitle}>Map Layers</h3>
       <div className={styles.controls}>
         <div className={styles.select}>
           <label>Layers</label>
@@ -134,7 +125,7 @@ export default function MapFilterControls({
       </div>
 
       {/* Location Filters */}
-      <h4 className={styles.sectionTitle}>Location Filters</h4>
+      <h3 className={styles.sectionTitle}>Location Filters</h3>
       <div className={styles.controls}>
         <div className={styles.select}>
           <label>County</label>
@@ -148,10 +139,7 @@ export default function MapFilterControls({
                 ? { value: selectedCounty, label: selectedCounty }
                 : { value: "", label: "Entire Region" }
             }
-            onChange={(opt) => {
-              onSelectCounty(opt?.value || "");
-              onSelectMunicipality(""); // reset muni if county changes
-            }}
+            onChange={(opt) => onSelectCounty(opt?.value || "")}
             placeholder="Select a county..."
             styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
             menuPortalTarget={
@@ -163,6 +151,7 @@ export default function MapFilterControls({
             narrow further.
           </small>
         </div>
+
         <div className={styles.select}>
           <label>Place</label>
           <Select
@@ -172,7 +161,10 @@ export default function MapFilterControls({
             ]}
             value={
               selectedMunicipality
-                ? { value: selectedMunicipality, label: selectedMunicipality }
+                ? {
+                    value: selectedMunicipality,
+                    label: selectedMunicipality,
+                  }
                 : { value: "", label: "Entire Region" }
             }
             onChange={(opt) => onSelectMunicipality(opt?.value || "")}
@@ -190,7 +182,7 @@ export default function MapFilterControls({
       </div>
 
       {/* Severity */}
-      <h4 className={styles.sectionTitle}>Crash Severity</h4>
+      <h3 className={styles.sectionTitle}>Crash Severity</h3>
       <div className={styles.controls}>
         <div className={styles.select}>
           <label>Severity</label>
@@ -217,7 +209,7 @@ export default function MapFilterControls({
       </div>
 
       {/* Actions */}
-      <h4 className={styles.sectionTitle}>Actions</h4>
+      <h3 className={styles.sectionTitle}>Actions</h3>
       <div className={styles.controls}>
         <div className={styles.actions}>
           <button className={styles.btn} onClick={onZoomToExtent}>
